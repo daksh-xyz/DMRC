@@ -65,14 +65,14 @@ The DMRC Alumni Portal is a web application designed to facilitate the interacti
    - Update the database credentials:
      ```php
      define('DB_SERVER', 'localhost');
-     define('DB_USERNAME', 'your-username');
-     define('DB_PASSWORD', 'your-password');
-     define('DB_NAME', 'your-database-name');
+     define('DB_USERNAME', 'root');
+     define('DB_PASSWORD', 'root');
+     define('DB_NAME', 'dmrc');
      ```
 
 5. **Run the application:**
    - Place the project folder in your web server's root directory (e.g., `htdocs` for XAMPP).
-   - Open a web browser and navigate to `http://localhost/dmrc-alumni-portal`.
+   - Open a web browser and navigate to `http://localhost/dmrc/index.php`.
 
 ## Usage
 
