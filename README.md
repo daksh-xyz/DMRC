@@ -48,12 +48,12 @@ The DMRC Alumni Portal is a web application designed to facilitate the interacti
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/your-username/dmrc-alumni-portal.git
+   git clone https://github.com/daksh-xyz/DMRC.git
    ```
 
 2. **Navigate to the project directory:**
    ```sh
-   cd dmrc-alumni-portal
+   cd DMRC
    ```
 
 3. **Set up the database:**
