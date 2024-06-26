@@ -5,7 +5,6 @@ body {
     background-image: url("../assets/images/home_background.png");
     background-size: cover;
     background-position: center;
-    height: 100vh;
     overflow: hidden;
 }
 
@@ -174,15 +173,30 @@ header h1 {
     body{
         overflow: scroll;
     }
+
+    body::before {
+        height: 140vh;
+    }
+    
     .container{
+        margin-top: auto;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        row-gap: 10vh;
     }
 
     .login-form{
         width: 60vw;
-        height: 50vh;
+        height: 60vh;
+    }
+
+    .reg-button{
+        padding: 15px;
+        background-color: #f59e0b;
+        border-radius: 15px;
+        text-align: center;
+        width: 50%;
     }
 }
