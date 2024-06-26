@@ -6,6 +6,6 @@
     <title>DMRC | Alumni Portal</title>
 </head>
 <body>
-    Hello
+    <h1>Connecting Alumnis</h1>
 </body>
 </html>
