@@ -11,6 +11,7 @@ body {
 body::before {
     content: "";
     position: absolute;
+    margin-top: 2vh;
     top: 0;
     left: 0;
     width: 100vw;
@@ -171,7 +172,7 @@ header h1 {
 @media only screen and (max-width: 800px) {
     body{
         overflow: scroll;
-    }
+    } 
 
     body::before {
         content: "";

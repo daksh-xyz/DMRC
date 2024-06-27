@@ -69,7 +69,7 @@
                 <br>
                 <div class="pcenter">
                     <div class="reg-button">
-                        <a href="./pages/Register.php">Register As New User</a>
+                        <a href="./pages/Register.php" target=" _parent">Register As New User</a>
                     </div>
                 </div>
             </div>
