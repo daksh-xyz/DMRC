@@ -97,7 +97,6 @@ header h1 {
 }
 
 .login-form {
-    height: 60vh;
     width: 30vw;
     margin: 2px auto;
     background: whitesmoke;
@@ -136,7 +135,7 @@ header h1 {
 .login-form input[type="submit"] {
     width: 85%;
     padding: 10px;
-    margin-top: 10px;
+    margin-top: 2vh;
     border: none;
     border-radius: 4px;
     background-color: #0073e6;
@@ -152,7 +151,7 @@ header h1 {
 
 .fpass a{
     text-decoration: none;
-    margin-top: 10%;
+    margin-top: 5vh;
 }
 
 .reg-button{
@@ -161,7 +160,7 @@ header h1 {
     border-radius: 15px;
     text-align: center;
     width: 50%;
-    margin-top: 10%;
+    margin-top: 5vh;
 }
 
 .reg-button a{
@@ -175,7 +174,14 @@ header h1 {
     }
 
     body::before {
-        height: 140vh;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #18223fb9; 
+        z-index: -1;
     }
     
     .container{
@@ -189,7 +195,6 @@ header h1 {
 
     .login-form{
         width: 60vw;
-        height: 60vh;
     }
 
     .reg-button{
@@ -198,5 +203,6 @@ header h1 {
         border-radius: 15px;
         text-align: center;
         width: 50%;
+        margin-top: 2vh;
     }
 }
