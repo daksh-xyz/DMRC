@@ -11,6 +11,7 @@ body {
 body::before {
     content: "";
     position: absolute;
+    margin-top: 2vh;
     top: 0;
     left: 0;
     width: 100vw;
@@ -183,7 +184,7 @@ header h1 {
 @media only screen and (max-width: 800px) {
     body{
         overflow: scroll;
-    }
+    } 
 
     body::before {
         content: "";
@@ -217,4 +218,145 @@ header h1 {
         width: 50%;
         margin-top: 2vh;
     }
+}
+
+
+
+
+
+
+
+.signup-container {
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.signup-form h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.signup-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.signup-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.signup-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #6c63ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signup-form button:hover {
+    background-color: #5750c7;
+}
+
+.signup-form p {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signup-form a {
+    color: #6c63ff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.signup-form a:hover {
+    color: #5750c7;
+}
+
+ 
+
+
+
+
+
+
+.header {
+    background-color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header-right a {
+    text-decoration: none;
+    color: #6c63ff;
+    margin-right: 15px;
+    transition: color 0.3s ease;
+}
+
+.header-right a:hover {
+    color: #5750c7;
+}
+
+.logout-button {
+    background-color: #6c63ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #5750c7;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.profile-card {
+    background-color: white;
+    width: 80%;
+    max-width: 600px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.profile-card p {
+    margin: 0;
+    font-size: 18px;
+}
+
+
+
+.message{
+    text-align: center ;
 }
