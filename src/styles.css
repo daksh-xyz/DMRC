@@ -168,6 +168,18 @@ header h1 {
     color: black;
 }
 
+/* invalid username */
+
+.message{
+    background-color: white;
+    color: black;
+    padding: 30px;
+    margin: auto;
+    text-align: center;
+    border-radius: 15px;
+    border: 1px black;
+}
+
 @media only screen and (max-width: 800px) {
     body{
         overflow: scroll;
