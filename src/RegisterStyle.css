@@ -24,6 +24,17 @@ body{
     column-gap: 5%;
 }
 
+.mcenter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.message{
+    width: 50%;
+}
+
 #fname,#lname,#mobile,#email,#address,#city,#dist,#state,#pcode,#username,#password{
     width: 95%;
 }

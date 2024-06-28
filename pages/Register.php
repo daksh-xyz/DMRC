@@ -15,24 +15,45 @@
 
     include ("../php/config.php");
     if (isset($_POST["submit"])) {
+        $fname = $_POST['fname'];
+        $lname = $_POST['lname'];
         $username = $_POST['username'];
         $email = $_POST['email'];
-        $age = $_POST['age'];
         $password = $_POST['password'];
+        $mobile = $_POST['mobile'];
+        $address = $_POST['address'];
+        $dist = $_POST['district'];
+        $city = $_POST['city'];
+        $state = $_POST['state'];
+        $pcode = $_POST['pincode'];
 
-        $verify_query = mysqli_query($con, "SELECT Email FROM users WHERE Email='$email' ");
+        $verify_query = mysqli_query($con, "SELECT Username FROM alumni WHERE Username='$username' ");
         if (mysqli_num_rows($verify_query) != 0) {
-            echo "<div class= 'message'>
+            echo "<div class = 'mcenter'>
+            <div class= 'message'>
         <p> This email is used , Try another One Please! </p>
-        </div> <br>";
-            echo "<a href = 'javascript: self.history.back() '><button class = 'btn'> Go Back </button>";
+        <a href = 'javascript: self.history.back() '><button class = 'btn'> Go Back </button>
+        </div></div>";
 
         } else {
-            mysqli_query($con, "INSERT INTO users (Username, Email, Age , Password) VALUES ('$username',$email',$age',$password' )") or die("Error Occured");
-            echo "<div class= 'message'>
-        <p> Registration Successfull! </p>
-        </div> <br>";
-            echo "<a href = '../index.php'><button class = 'btn'> Login Now </button>";
+            $stmt = $con->prepare("INSERT INTO alumni (First_Name, Last_Name, Username, Email, Password, Mobile, Address, District, City, State, Pincode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            if ($stmt === false) {
+                die('Prepare failed: ' . htmlspecialchars($con->error));
+            }
+            // Bind the parameters
+            $stmt->bind_param("sssssssssss", $fname, $lname, $username, $email, $password, $mobile, $address, $dist, $city, $state, $pcode);
+
+            if ($stmt->execute() === false) {
+                die('Execute failed: ' . htmlspecialchars($stmt->error));
+            } else {
+                echo "<div class='mcenter'><div class= 'message'>
+                        <p> Registration Successfull! </p>
+                        <a href = '../index.php'><button class = 'btn'> Login Now </button>
+                    </div> </div>";
+            }
+
+            // Close the statement
+            $stmt->close();
         }
     } else {
 
