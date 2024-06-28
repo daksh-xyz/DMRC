@@ -4,16 +4,13 @@ body {
     padding: 0;
     background-image: url("../assets/images/home_background.png");
     background-size: cover;
-    background-position: center;
+    background-repeat: no-repeat;
     overflow: hidden;
 }
 
 body::before {
     content: "";
-    position: absolute;
-    margin-top: 2vh;
-    top: 0;
-    left: 0;
+    position: fixed;
     width: 100vw;
     height: 100vh;
     background-color: #18223fb9; 
@@ -45,14 +42,6 @@ header h1 {
     padding: 0 1vw;
 }
 
-.center{
-    height: 90vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .pcenter{
     display: flex;
     justify-content: center;
@@ -60,6 +49,7 @@ header h1 {
 }
 
 .container {
+    margin-top: 10vh;
     width: 80%;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -125,7 +115,8 @@ header h1 {
 }
 
 .login-form input[type="text"],
-.login-form input[type="password"] {
+.login-form input[type="password"],
+.login-form input[type="number"] {
     width: 90%;
     padding: 10px;
     margin-bottom: 10px;
@@ -184,13 +175,13 @@ header h1 {
 @media only screen and (max-width: 800px) {
     body{
         overflow: scroll;
+        background-size: cover;
+        background-repeat: repeat-y;
     } 
 
     body::before {
         content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
+        position: fixed;
         width: 100vw;
         height: 100vh;
         background-color: #18223fb9; 
@@ -203,11 +194,11 @@ header h1 {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        row-gap: 10vh;
+        row-gap: 5vh;
     }
 
     .login-form{
-        width: 60vw;
+        width: 70vw;
     }
 
     .reg-button{
@@ -353,10 +344,4 @@ header h1 {
 .profile-card p {
     margin: 0;
     font-size: 18px;
-}
-
-
-
-.message{
-    text-align: center ;
 }

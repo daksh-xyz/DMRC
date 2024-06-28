@@ -62,7 +62,7 @@
             </div>
         </header>
 
-        <div class="center">
+        <div class="pcenter">
             <div class="container">
                 <div class="about">
                     <h1 id="aboutH1">DMRC</h1>
@@ -76,7 +76,6 @@
                         our
                         alumni family.
                     </p>
-
                 </div>
                 <div class="login-form">
                     <div class="login-head">
