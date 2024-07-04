@@ -170,10 +170,11 @@ header h1 {
 /* invalid username */
 
 .message{
-    background-color: white;
+    background-color: red;
     color: black;
-    padding: 30px;
+    padding: 2px 0;
     margin: auto;
+    margin-bottom: 3vh;
     text-align: center;
     border-radius: 15px;
     border: 1px black;
@@ -196,6 +197,7 @@ header h1 {
     }
     
     .container{
+        transform: translate(-3%, 0%);
         margin-top: auto;
         display: flex;
         flex-direction: column;

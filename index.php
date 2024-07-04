@@ -31,22 +31,77 @@
         if (is_array($row) && !empty($row)) {
             $_SESSION['fname'] = $row['First_Name'];
             $_SESSION['lname'] = $row['Last_Name'];
+            $_SESSION['id'] = $row['Alumni_id'];
             $_SESSION['username'] = $row['Username'];
             $_SESSION['password'] = $row['Password'];
             $_SESSION['contact'] = $row['Mobile'];
         } else {
             echo "
-            <div class='center'>
-                <div class='message'>
-                    <p>Wrong Username or Password</p>
-                    <a href='index.php'><button class='btn'>Go Back</button>
+            <header>
+            <div class='head'>
+                <img src='./assets/images/logo.png' width='100px' height='39px'>
+                <form action='#'>
+                    <select class='language'>
+                        <option value='English'>English</option>
+                        <option value='Hindi'>Hindi</option>
+                    </select>
+                </form>
+            </div>
+        </header>
+
+        <div class='center'>
+            <div class='container'>
+                <div class='about'>
+                    <h1 id='aboutH1'>DMRC</h1>
+                    <h2 id='aboutH2'>Alumni Portal</h2>
+                    <p>
+                        Welcome to the official alumni portal of the Delhi Metro Rail Corporation. This platform is
+                        dedicated to
+                        reconnecting our past employees, fostering professional networks, and celebrating the
+                        accomplishments of
+                        our alumni community. Join us in staying connected and contributing to the growth and success of
+                        our
+                        alumni family.
+                    </p>
                 </div>
-                <br>
-            </div>";
+                <div class='login-form'>
+                    <div class='login-head'>
+                        <h2>Login</h2>
+                        <p>Welcome! Please enter the details to login.</p>
+                    </div>
+                    <div class='message'>
+                        <p>Wrong Username or Password</p>
+                    </div>
+                    <form method='post'>
+                        <label for='username'>Username</label>
+                        <input type='text' id='username' name='username' required>
+
+                        <label for='password'>Password</label>
+                        <input type='password' id='password' name='password' required>
+                        <br><br>
+                        <div class='pcenter'>
+                            <input type='submit' name='submit' value='Login'>
+                        </div>
+                    </form>
+                    <br>
+                    <div class='pcenter'>
+                        <div class='fpass'>
+                            <span>Forgot Password? <a href='./pages/ForgotPass.php'>Reset Password</a></span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class='pcenter'>
+                        <div class='reg-button'>
+                            <a href='./pages/Register.php'>Register As New User</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>";
 
         }
         if (isset($_SESSION['username'])) {
-            header("location: ./pages/new_page.php");
+            header("location: ./pages/home.php");
         }
     } else {
 

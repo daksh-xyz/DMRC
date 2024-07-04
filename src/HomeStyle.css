@@ -1,5 +1,51 @@
+body{   
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+}
+
 .link{
     text-decoration: none;
     padding: 0 10px;
-    color: black;
+    color: #c91f24;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.link:hover{
+    color: #e7262d;
+}
+
+#logout{
+    background-color: #c91f24;
+    color: white;
+    border-radius: 12px;
+    padding: 10px;
+    transition: ease-in-out 200ms;
+}
+
+#logout:hover{
+    background-color: #e7262d;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 90vh;
+    padding: 0;
+}
+
+.row{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.col{
+    margin: 10px;
+    background-color: white;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 15px;    
 }
