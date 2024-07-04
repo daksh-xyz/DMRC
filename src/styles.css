@@ -4,16 +4,13 @@ body {
     padding: 0;
     background-image: url("../assets/images/home_background.png");
     background-size: cover;
-    background-position: center;
+    background-repeat: no-repeat;
     overflow: hidden;
 }
 
 body::before {
     content: "";
-    position: absolute;
-    margin-top: 2vh;
-    top: 0;
-    left: 0;
+    position: fixed;
     width: 100vw;
     height: 100vh;
     background-color: #18223fb9; 
@@ -125,7 +122,8 @@ header h1 {
 }
 
 .login-form input[type="text"],
-.login-form input[type="password"] {
+.login-form input[type="password"], 
+.login-form input[type="number"] {
     width: 90%;
     padding: 10px;
     margin-bottom: 10px;
@@ -169,16 +167,29 @@ header h1 {
     color: black;
 }
 
+/* invalid username */
+
+.message{
+    background-color: red;
+    color: black;
+    padding: 2px 0;
+    margin: auto;
+    margin-bottom: 3vh;
+    text-align: center;
+    border-radius: 15px;
+    border: 1px black;
+}
+
 @media only screen and (max-width: 800px) {
     body{
         overflow: scroll;
+        background-size: cover;
+        background-repeat: repeat-y;
     } 
 
     body::before {
         content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
+        position: fixed;
         width: 100vw;
         height: 100vh;
         background-color: #18223fb9; 
@@ -186,16 +197,17 @@ header h1 {
     }
     
     .container{
+        transform: translate(-3%, 0%);
         margin-top: auto;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        row-gap: 10vh;
+        row-gap: 5vh;
     }
 
     .login-form{
-        width: 60vw;
+        width: 70vw;
     }
 
     .reg-button{
@@ -207,76 +219,6 @@ header h1 {
         margin-top: 2vh;
     }
 }
-
-
-
-
-
-
-
-.signup-container {
-    background-color: white;
-    padding: 20px 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-}
-
-.signup-form h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    text-align: center;
-}
-
-.signup-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.signup-form input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.signup-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #6c63ff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.signup-form button:hover {
-    background-color: #5750c7;
-}
-
-.signup-form p {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.signup-form a {
-    color: #6c63ff;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.signup-form a:hover {
-    color: #5750c7;
-}
-
- 
-
-
 
 
 
@@ -341,10 +283,4 @@ header h1 {
 .profile-card p {
     margin: 0;
     font-size: 18px;
-}
-
-
-
-.message{
-    text-align: center ;
 }
