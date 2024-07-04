@@ -29,7 +29,8 @@
         $row = mysqli_fetch_assoc($result);
 
         if (is_array($row) && !empty($row)) {
-            $_SESSION['name'] = $row['Name'];
+            $_SESSION['fname'] = $row['First_Name'];
+            $_SESSION['lname'] = $row['Last_Name'];
             $_SESSION['username'] = $row['Username'];
             $_SESSION['password'] = $row['Password'];
             $_SESSION['contact'] = $row['Mobile'];
@@ -44,7 +45,7 @@
             </div>";
 
         }
-        if (isset($_SESSION['id'])) {
+        if (isset($_SESSION['username'])) {
             header("location: ./pages/new_page.php");
         }
     } else {
@@ -62,7 +63,7 @@
             </div>
         </header>
 
-        <div class="pcenter">
+        <div class="center">
             <div class="container">
                 <div class="about">
                     <h1 id="aboutH1">DMRC</h1>
