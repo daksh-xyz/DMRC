@@ -43,9 +43,14 @@ body{
 }
 
 .col{
-    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 1vw;
     background-color: white;
-    padding: 10px 20px;
+    width: 12vw;
+    height: 22vh;
     text-align: center;
     border-radius: 15px;    
 }

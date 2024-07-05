@@ -14,19 +14,24 @@
 <body>
     <?php
     include ("../php/config.php");
-    if (!isset($_SESSION['username'])) {
+    if (!isset($_SESSION['id'])) {
         header("Location: ../index.php");
     }
     $id = $_SESSION['id'];
     $query = "SELECT BatchID from alumni_details where Alumni_id = $id";
     $qresult = mysqli_query($con, $query);
-    echo "$id";
+    $row = mysqli_fetch_assoc($qresult);
+    $BID = $row['BatchID'];
+    if ($BID == "") {
+        echo "<script>window.location.href = 'profile.php';</script>";
+    }
 
     ?>
     <header>
         <div class="head">
             <img src="../assets/images/logo.png" width="100px" height="39px">
             <div>
+                <a href="socialize.php" class="link">Socialize</a>
                 <a class="link" href="profile.php">My Profile</a>
                 <a id="logout" class="link" href="../php/logout.php">Logout</a>
             </div>
@@ -44,12 +49,15 @@
             </div>
             <div class="col">
                 <a href="../assets/images/pdf.png" download><img src="../assets/images/pdf.png" height="50px"></a>
+                <p>Superannuation Statement</p>
             </div>
             <div class="col">
                 <a href="../assets/images/pdf.png" download><img src="../assets/images/pdf.png" height="50px"></a>
+                <p>Service Certificate</p>
             </div>
             <div class="col">
                 <a href="../assets/images/pdf.png" download><img src="../assets/images/pdf.png" height="50px"></a>
+                <p>Release Letter</p>
             </div>
         </div>
     </div>
