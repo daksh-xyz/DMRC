@@ -12,6 +12,9 @@
     <?php
     session_start();
     include ("../php/config.php");
+    if (!isset($_SESSION['id'])) {
+        header("Location: ../index.php");
+    }
     $id = $_SESSION['id'];
 
     if (isset($_POST["pfpUpdate"])) {

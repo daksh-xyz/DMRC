@@ -6,6 +6,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 body::before {
@@ -69,6 +70,7 @@ header {
 }
 
 .profile-container {
+    margin-top: 10vh;
     background-color: #fff;
     padding: 2vw 5vw;
     border-radius: 10px;
