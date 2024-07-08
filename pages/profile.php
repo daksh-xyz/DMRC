@@ -14,7 +14,7 @@
     include ("../php/config.php");
     if (!isset($_SESSION['id'])) {
         header("Location: ../index.php");
-    }
+    }else{
     $id = $_SESSION['id'];
 
     if (isset($_POST["pfpUpdate"])) {
@@ -295,6 +295,7 @@
             event.currentTarget.classList.add('active');
         }
     </script>
+    <?php }?>
 </body>
 
 </html>
