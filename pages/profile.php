@@ -90,7 +90,7 @@
             mysqli_query($con, $Detail_edit_query);
             header("Location: profile.php");
         } else {
-            $getAlumniData = "SELECT * FROM alumni a LEFT JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id UNION SELECT * FROM alumni a RIGHT JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id";
+            $getAlumniData = "SELECT * FROM alumni a LEFT JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id WHERE a.Alumni_id = $id;";
             $AlumniData = mysqli_query($con, $getAlumniData);
             $AlumniDataResult = mysqli_fetch_assoc($AlumniData);
             $name = $AlumniDataResult['First_Name'] . " " . $AlumniDataResult['Last_Name'];
