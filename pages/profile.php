@@ -86,8 +86,6 @@
             $PNum = $_POST['PNum'];
             $Alumni_edit_query = mysqli_query($con, "UPDATE alumni SET First_Name='$fname', Last_Name='$lname',DOB='$dob', Mobile='$mobile',Address='$address',District='$district',City='$city',State='$state',Pincode='$pcode',Username='$username',Email='$email',Password='$password' where Alumni_id=$id") or die("error occurred");
             $Detail_edit_query = mysqli_query($con, "UPDATE alumni_details SET BatchID='$BID',Department='$dept',UAN='$UAN',PF='$PF',Pension_Number='$PNum',PAN='$PAN',Join_Date='$jDate',Last_date='$lDate' WHERE Alumni_id=$id");
-            mysqli_query($con, $Alumni_edit_query);
-            mysqli_query($con, $Detail_edit_query);
             header("Location: profile.php");
         } else {
             $getAlumniData = "SELECT * FROM alumni a LEFT JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id WHERE a.Alumni_id= $id UNION SELECT * FROM alumni a RIGHT JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id WHERE ad.Alumni_id = $id;";

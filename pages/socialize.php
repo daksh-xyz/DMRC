@@ -28,33 +28,80 @@
             </div>
         </header>
 
-        <div class="SearchContainer">
-            <div class="box">
-                <h2>Search by Alumni Information</h2>
-                <input type="text" placeholder="Name of Alumni" />
-                <input type="date" placeholder="Date of Joining" />
-                <input type="date" placeholder="Date of Retirement" />
-                <select>
-                    <option value="">Select Department</option>
-                    <option value="IT">IT</option>
-                    <option value="Mechanical">Mechanical</option>
-                    <option value="Civil">Civil</option>
-                    <option value="HR">HR</option>
-                    <option value="Finance">Finance</option>
-
-                </select>
-                <button>Search</button>
+        <div class="search-section">
+        <div class="search-box">
+            <h2>Search by Alumni Information</h2>
+            <input type="text" placeholder="Name of Alumni">
+            <input type="date">
+            <input type="date">
+            <select>
+                <option value="">Select Department</option>
+                <option value="IT">IT</option>
+                <option value="Mechanical">Mechanical</option>
+                <option value="Civil">Civil</option>
+                <option value="HR">HR</option>
+                <option value="Finance">Finance</option>
+                <option value="Engineering">Engineering</option>
+            </select>
+            <button>Search</button>
+        </div>
+    </div>
+    <div class="alumni-grid">
+        <div class="alumni-box">
+            <img src="../assets/userpfp/user.png" alt="Profile Picture" class="profile-pic">
+            <div class="alumni-info">
+                <p class="alumni-name">tejas</p>
+                <p class="alumni-detail">Batch 2020</p>
+                <button class="connect-button">Connect</button>
             </div>
         </div>
-        <div class="ResultContainer">
-
+        
+        <div class="alumni-box">
+            <img src="../assets/userpfp/user.png" alt="Profile Picture" class="profile-pic">
+            <div class="alumni-info">
+                <p class="alumni-name">daksh</p>
+                <p class="alumni-detail">Batch 2021</p>
+                <button class="connect-button">Connect</button>
+            </div>
         </div>
-    </body>
 
-    </html>
+        <div class="alumni-box">
+            <img src="../assets/userpfp/user.png" alt="Profile Picture" class="profile-pic">
+            <div class="alumni-info">
+                <p class="alumni-name">mayur vihar</p>
+                <p class="alumni-detail">Batch 2019</p>
+                <button class="connect-button">Connect</button>
+            </div>
+        </div>
 
-    <script src="scripts.js"></script>
-<?php } ?>
+        <div class="alumni-box">
+            <img src="../assets/userpfp/user.png" alt="Profile Picture" class="profile-pic">
+            <div class="alumni-info">
+                <p class="alumni-name">xyz</p>
+                <p class="alumni-detail">Batch 2019</p>
+                <button class="connect-button">Connect</button>
+            </div>
+        </div>
+
+        <div class="alumni-box">
+            <img src="../assets/userpfp/user.png" alt="Profile Picture" class="profile-pic">
+            <div class="alumni-info">
+                <p class="alumni-name">yoo</p>
+                <p class="alumni-detail">Batch 2016</p>
+                <button class="connect-button">Connect</button>
+            </div>
+        </div>
+        <div class="alumni-box">
+            <img src="../assets/userpfp/user.png" alt="Profile Picture" class="profile-pic">
+            <div class="alumni-info">
+                <p class="alumni-name">abcd</p>
+                <p class="alumni-detail">Batch 2022</p>
+                <button class="connect-button">Connect</button>
+            </div>
+        </div>
+        
+    </div>
 </body>
-
 </html>
+    
+<?php } ?>
