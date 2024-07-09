@@ -29,7 +29,7 @@
     ?>
     <header>
         <div class="head">
-            <img src="../assets/images/logo.png" width="100px" height="39px">
+            <a href="home.php"><img src="../assets/images/logo.png" width="100px" height="39px"></a>
             <div>
                 <a href="socialize.php" class="link">Socialize</a>
                 <a class="link" href="profile.php">My Profile</a>
@@ -37,7 +37,7 @@
             </div>
         </div>
     </header>
-    <div class="container">
+    <div class="center">
         <div class="row">
             <div class="col">
                 <a href="../assets/images/pdf.png" download><img src="../assets/images/pdf.png" height="50px"></a>

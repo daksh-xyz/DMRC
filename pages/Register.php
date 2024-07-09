@@ -60,7 +60,7 @@
         ?>
         <header>
             <div class="head">
-                <img src="../assets/images/logo.png" width="100px" height="39px">
+                <a href="home.php"><img src="../assets/images/logo.png" width="100px" height="39px"></a>
                 <form action="#">
                     <select class="language">
                         <option value="English">English</option>

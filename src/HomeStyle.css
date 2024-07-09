@@ -1,7 +1,34 @@
-body{   
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-image: url("../assets/images/home_background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
     overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: #18223fb9; 
+    z-index: -1;
+}
+
+header {
+    background-color: #f7f7f7;
+    padding: 20px;
+    text-align: center;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1vw;
 }
 
 .link{
@@ -50,7 +77,34 @@ body{
     margin: 1vw;
     background-color: white;
     width: 12vw;
-    height: 22vh;
+    padding: 3vh 0;
     text-align: center;
     border-radius: 15px;    
+}
+
+@media only screen and (max-width: 800px){
+    .link{
+        display: none;
+    }
+
+    .container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        margin-top: auto;
+    }
+
+    .center{
+        height: 100vh;
+    }
+
+    .row{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .col{
+        width: auto;
+        text-wrap: wrap;
+    }
 }

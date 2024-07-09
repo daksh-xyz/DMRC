@@ -117,7 +117,7 @@
 
             <header>
                 <div class="head">
-                    <img src="../assets/images/logo.png" width="100px" height="39px">
+                    <a href="home.php"><img src="../assets/images/logo.png" width="100px" height="39px"></a>
                     <div>
                         <a href="Socialize.php" class="link">Socialize</a>
                         <a class="link" href="home.php">Home</a>
