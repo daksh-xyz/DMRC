@@ -83,43 +83,39 @@
         </style>
         </head>
 
-        <body>
-            <div class="header">
-                <h1>Socialise with Alumni</h1>
-            </div>
-            <div class="container">
-                <div class="box">
-                    <h2>Search by Alumni Information</h2>
-                    <input type="text" placeholder="Name of Alumni" />
-                    <input type="date" placeholder="Date of Joining" />
-                    <input type="date" placeholder="Date of Retirement" />
-                    <select>
-                        <option value="">Select Department</option>
-                        <option value="IT">IT</option>
-                        <option value="Mechanical">Mechanical</option>
-                        <option value="Civil">Civil</option>
-                        <option value="HR">HR</option>
-                        <option value="Finance">Finance</option>
+        <div class="container">
+            <div class="box">
+                <h2>Search by Alumni Information</h2>
+                <input type="text" placeholder="Name of Alumni" />
+                <input type="date" placeholder="Date of Joining" />
+                <input type="date" placeholder="Date of Retirement" />
+                <select>
+                    <option value="">Select Department</option>
+                    <option value="IT">IT</option>
+                    <option value="Mechanical">Mechanical</option>
+                    <option value="Civil">Civil</option>
+                    <option value="HR">HR</option>
+                    <option value="Finance">Finance</option>
 
-                    </select>
-                    <button>Search</button>
-                </div>
-                <div class="box">
-                    <h2>Search by Employee ID</h2>
-                    <input type="text" placeholder="Employee ID" />
-                    <button>Search</button>
-                </div>
+                </select>
+                <button>Search</button>
             </div>
-
-            <div style="margin-left:30px;">
-                <div class="box">
-                    <h2>Search by Year of Retirement</h2>
-                    <input type="text" placeholder="Retirement year" />
-
-                    <button>Search</button>
-                </div>
+            <div class="box">
+                <h2>Search by Employee ID</h2>
+                <input type="text" placeholder="Employee ID" />
+                <button>Search</button>
             </div>
-        </body>
+        </div>
+
+        <div style="margin-left:30px;">
+            <div class="box">
+                <h2>Search by Year of Retirement</h2>
+                <input type="text" placeholder="Retirement year" />
+
+                <button>Search</button>
+            </div>
+        </div>
+    </body>
 
     </html>
 
