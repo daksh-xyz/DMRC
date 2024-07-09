@@ -23,6 +23,14 @@
     if (isset($_POST['submit'])) {
         $username = mysqli_real_escape_string($con, $_POST['username']);
         $password = mysqli_real_escape_string($con, $_POST['password']);
+        $BID = null;
+        $dept = null;
+        $jDate = null;
+        $lDate = null;
+        $UAN = null;
+        $PF = null;
+        $PAN = null;
+        $PNum = null;
 
         $result = mysqli_query($con, "SELECT * FROM alumni WHERE Username='$username' AND Password='$password' ") or die("Select
     Error");
@@ -32,9 +40,24 @@
             $_SESSION['fname'] = $row['First_Name'];
             $_SESSION['lname'] = $row['Last_Name'];
             $_SESSION['id'] = $row['Alumni_id'];
+            $id = $_SESSION['id'];
             $_SESSION['username'] = $row['Username'];
             $_SESSION['password'] = $row['Password'];
             $_SESSION['contact'] = $row['Mobile'];
+            $verify_query = mysqli_query($con, "SELECT Alumni_id FROM alumni_details WHERE Alumni_id='$id' ");
+            if (mysqli_num_rows($verify_query) == 0) {
+                $stmt = $con->prepare("INSERT INTO alumni_details(Alumni_id, BatchID, Department, UAN, PF, Pension_Number, PAN, Join_Date, Last_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                if ($stmt === false) {
+                    die('Prepare failed: ' . htmlspecialchars($con->error));
+                }
+                // Bind the parameters
+                $stmt->bind_param("sssssssss", $id, $BID, $dept, $jDate, $lDate, $UAN, $PF, $PAN, $PNum);
+
+                if ($stmt->execute() === false) {
+                    die('Execute failed: ' . htmlspecialchars($stmt->error));
+                }
+                $stmt->close();
+            }
         } else {
             echo "
             <header>
