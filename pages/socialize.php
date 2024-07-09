@@ -28,62 +28,7 @@
             </div>
         </header>
 
-        <title>Socialise with Alumni</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-            }
-
-            .header {
-                background-color: red;
-                color: white;
-                text-align: center;
-                padding: 10px 0;
-            }
-
-            .container {
-                display: flex;
-                justify-content: space-around;
-                margin: 20px;
-            }
-
-            .box {
-                border: 1px solid #ccc;
-                padding: 20px;
-                border-radius: 5px;
-                width: 45%;
-            }
-
-            .box h2 {
-                text-align: center;
-            }
-
-            .box input,
-            .box select {
-                width: 100%;
-                padding: 10px;
-                margin: 10px 0;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-            }
-
-            .box button {
-                width: 100%;
-                padding: 10px;
-                background-color: red;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-            }
-
-            .box button:hover {
-                background-color: darkred;
-            }
-        </style>
-        </head>
-
-        <div class="container">
+        <div class="SearchContainer">
             <div class="box">
                 <h2>Search by Alumni Information</h2>
                 <input type="text" placeholder="Name of Alumni" />
@@ -100,20 +45,9 @@
                 </select>
                 <button>Search</button>
             </div>
-            <div class="box">
-                <h2>Search by Employee ID</h2>
-                <input type="text" placeholder="Employee ID" />
-                <button>Search</button>
-            </div>
         </div>
+        <div class="ResultContainer">
 
-        <div style="margin-left:30px;">
-            <div class="box">
-                <h2>Search by Year of Retirement</h2>
-                <input type="text" placeholder="Retirement year" />
-
-                <button>Search</button>
-            </div>
         </div>
     </body>
 

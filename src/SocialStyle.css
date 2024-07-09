@@ -55,50 +55,51 @@ header {
     background-color: #e7262d;
 }
 
-main {
-    padding: 2em;
-}
-
-#search-options {
+.SearchContainer {
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 2em;
+    justify-content: center;
+    align-items: center;
+    margin-top: 7vh;
 }
 
-.search-option {
+.ResultContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 7vh;
+}
+
+.box {
     background-color: white;
-    padding: 1em;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 45%;
+    padding: 5vh 7vw;
+    border-radius: 10px;
+    text-align: center;
 }
 
-.search-option h2 {
-    margin-top: 0;
+.box h2 {
+    text-align: center;
 }
 
-label {
-    display: block;
-    margin-bottom: 0.5em;
-}
-
-input {
-    width: 100%;
-    padding: 0.5em;
-    margin-bottom: 1em;
+.box input,
+.box select {
+    width: 10vw;
+    text-align: center;
+    padding: 10px;
+    margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-button {
+.box button {
+    width: 100%;
+    padding: 10px;
     background-color: #c91f24;
     color: white;
-    padding: 0.5em 1em;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-button:hover {
+.box button:hover {
     background-color: #e7262d;
 }

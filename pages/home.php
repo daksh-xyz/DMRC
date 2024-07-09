@@ -18,11 +18,18 @@
         header("Location: ../index.php");
     }
     $id = $_SESSION['id'];
-    $query = "SELECT BatchID from alumni_details where Alumni_id = $id";
+    $query = "SELECT * from alumni_details where Alumni_id = $id";
     $qresult = mysqli_query($con, $query);
     $row = mysqli_fetch_assoc($qresult);
     $BID = $row['BatchID'];
-    if ($BID == "") {
+    $dept = $row['Department'];
+    $jDate = $row['Join_Date'];
+    $lDate = $row['Last_date'];
+    $UAN = $row['UAN'];
+    $PF = $row['PF'];
+    $PAN = $row['PAn'];
+    $PNum = $row['PNum'];
+    if ($BID == "" || $dept == "" || $jDate == "" || $lDate == "" || $UAN == "" || $PF == "" || $PAN == "" || $PNum == "") {
         echo "<script>window.location.href = 'profile.php';</script>";
     }
 
