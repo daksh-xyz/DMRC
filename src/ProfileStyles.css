@@ -14,7 +14,7 @@ body::before {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background-color: #18223fb9; 
+    background-color: #18223fb9;
     z-index: -1;
 }
 
@@ -31,7 +31,11 @@ header {
     padding: 0 1vw;
 }
 
-.link{
+.off-screen-menu{
+    display: none;
+}
+
+.link {
     text-decoration: none;
     padding: 0 10px;
     color: #c91f24;
@@ -39,11 +43,11 @@ header {
     transition: 0.2s;
 }
 
-.link:hover{
+.link:hover {
     color: #e7262d;
 }
 
-#logout{
+#logout {
     background-color: #c91f24;
     color: white;
     border-radius: 12px;
@@ -51,11 +55,11 @@ header {
     transition: ease-in-out 200ms;
 }
 
-#logout:hover{
+#logout:hover {
     background-color: #e7262d;
 }
 
-.center{
+.center {
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -63,7 +67,7 @@ header {
     align-items: center;
 }
 
-.pcenter{
+.pcenter {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -94,7 +98,7 @@ h1 {
     padding: 1vh 1vw;
     cursor: pointer;
     border-radius: 5px;
-    font-family: "Inter" , sans-serif;
+    font-family: "Inter", sans-serif;
     font-weight: 500;
     margin: 10px;
 }
@@ -149,7 +153,7 @@ input {
     border-radius: 5px;
 }
 
-#name{
+#name {
     text-align: center;
     background-color: white;
     border: none;
@@ -172,7 +176,8 @@ input {
     margin-right: 0;
 }
 
-.continue-btn, .back-btn {
+.continue-btn,
+.back-btn {
     background-color: #c91f24;
     color: white;
     border: none;
@@ -186,23 +191,23 @@ input {
     margin-left: 0.5vw;
 }
 
-input[type="submit"]{
+input[type="submit"] {
     width: 99%;
 }
 
-.row{
+.row {
     display: grid;
     grid-template-rows: 0.1fr 0.1fr;
     margin-top: 0;
 }
 
-.col{
+.col {
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 3%;
 }
 
-.pfpUpdate{
+.pfpUpdate {
     width: 20%;
     background-color: #c91f24;
     color: white;
@@ -211,6 +216,142 @@ input[type="submit"]{
     border: none;
 }
 
-#address,#country,#mobile-number,#PAN, #PNum{
+#address,
+#country,
+#mobile-number,
+#PAN,
+#PNum {
     width: 95%;
+}
+
+/* #jDate, #lDate{
+    padding: 20px 10px;
+} */
+
+@media only screen and (max-width:800px) {
+
+    header {
+        position: fixed;
+        top: 0;
+        height: 5vh;
+        width: 100%;
+    }
+
+    .head {
+        position: fixed;
+        height: 5vh;
+        width: 90%;
+    }
+
+    .link {
+        display: none;
+    }
+
+    /* Hamburger Menu */
+
+    .off-screen-menu {
+        width: 100%;
+        height: 100vh;
+        max-width: 350px;
+        background-color: whitesmoke;
+        color: black;
+        position: fixed;
+        top: 0;
+        right: -450px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        font-size: 4vh;
+        transition: .3s ease;
+    }
+
+    .top {
+        margin-top: 10vh;
+    }
+
+    #menu-logout {
+        background-color: #c91f24;
+        color: white;
+        padding: 1vh 20vw;
+        border-radius: 10px;
+    }
+
+    #menu-logout:hover,
+    #menu-logout:active {
+        color: white;
+        background-color: #e7262d;
+    }
+
+    .off-screen-menu ul {
+        list-style-type: none;
+    }
+
+    .off-screen-menu a {
+        text-decoration: none;
+        color: black;
+        transition: .3s ease;
+    }
+
+    .off-screen-menu a:hover,
+    .off-screen-menu a:active {
+        color: #c91f24;
+    }
+
+    .off-screen-menu.active {
+        right: 0;
+    }
+
+    nav {
+        padding: 1rem;
+        display: flex;
+    }
+
+    .ham-menu {
+        display: inherit;
+        position: relative;
+        height: 40px;
+        width: 40px;
+        margin-left: auto;
+        z-index: 100;
+    }
+
+    .ham-menu span {
+        height: 5px;
+        width: 100%;
+        background-color: #c91f24;
+        border-radius: 25px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transition: .3s ease;
+    }
+
+    .ham-menu span:nth-child(1) {
+        top: 25%;
+    }
+
+    .ham-menu span:nth-child(3) {
+        top: 75%;
+    }
+
+    .ham-menu.active span:nth-child(1) {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .ham-menu.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .ham-menu.active span:nth-child(3) {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .space {
+        height: 10vh;
+    }
 }

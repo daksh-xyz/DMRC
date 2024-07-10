@@ -117,13 +117,35 @@
                 <div class="head">
                     <a href="home.php"><img src="../assets/images/logo.png" width="100px" height="39px"></a>
                     <div>
+                        <div class="off-screen-menu">
+                            <div class="top">
+                                <ul>
+                                    <li><a href="home.php">Home</a></li>
+                                    <li><a href="socialize.php">Socialize</a></li>
+                                    <li><a href="profile.php">Profile</a></li>
+                                </ul>
+                            </div>
+                            <div class="bottom">
+                                <ul>
+                                    <li><a href="../php/logout.php" id="menu-logout"><img src="">Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <nav>
+                            <div class="ham-menu">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </nav>
                         <a href="Socialize.php" class="link">Socialize</a>
                         <a class="link" href="home.php">Home</a>
                         <a id="logout" class="link" href="../php/logout.php">Logout</a>
                     </div>
                 </div>
             </header>
-            <div class="pcenter">
+            <div class="space"></div>
+            <div class="center">
                 <div class="profile-container">
                     <h1>My Profile</h1>
                     <div class="tabs">
@@ -215,12 +237,12 @@
 
                     <div id="employment-info" class="tab-content" style="display: none;">
                         <div class="profile-info">
-                            <div class="col form-group">
-                                <div class="row">
-                                    <label for="Join Date">Date of Joining:</label>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="Date of Joining">Date Of Joining:</label>
                                     <input type="date" name="jDate" id="jDate" value="<?php echo $jDate ?>">
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="Last Date">Last Working Date:</label>
                                     <input type="date" name="lDate" id="lDate" value="<?php echo $lDate ?>">
                                 </div>
@@ -292,6 +314,13 @@
                 }
                 event.currentTarget.classList.add('active');
             }
+
+            const hamMenu = document.querySelector('.ham-menu');
+            const offScreenMenu = document.querySelector('.off-screen-menu');
+            hamMenu.addEventListener('click', () => {
+                hamMenu.classList.toggle('active');
+                offScreenMenu.classList.toggle('active');
+            })
         </script>
     <?php } ?>
 </body>

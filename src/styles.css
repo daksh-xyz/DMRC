@@ -13,7 +13,7 @@ body::before {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background-color: #18223fb9; 
+    background-color: #18223fb9;
     z-index: -1;
 }
 
@@ -24,7 +24,7 @@ header {
     text-align: center;
 }
 
-.language{
+.language {
     padding: 12px;
     border: 1px solid #aeb4bd;
     border-radius: 12px;
@@ -42,7 +42,7 @@ header h1 {
     padding: 0 1vw;
 }
 
-.center{
+.center {
     height: 90vh;
     width: 100vw;
     display: flex;
@@ -50,7 +50,7 @@ header h1 {
     align-items: center;
 }
 
-.pcenter{
+.pcenter {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,8 +64,8 @@ header h1 {
     padding: 1rem;
 }
 
-.about{
-    padding-top:10px;   
+.about {
+    padding-top: 10px;
     font-family: "Inter", sans-serif;
 }
 
@@ -103,13 +103,13 @@ header h1 {
     border-radius: 15px;
 }
 
-.login-head{
+.login-head {
     margin-bottom: 20px;
 }
 
 .login-form h2 {
     text-align: start;
-    margin:10px 0;
+    margin: 10px 0;
     color: #c0272c;
     font-size: 44px;
     font-weight: 300;
@@ -122,7 +122,7 @@ header h1 {
 }
 
 .login-form input[type="text"],
-.login-form input[type="password"], 
+.login-form input[type="password"],
 .login-form input[type="number"] {
     width: 90%;
     padding: 10px;
@@ -141,19 +141,19 @@ header h1 {
     color: white;
     font-size: 1rem;
     cursor: pointer;
-    
+
 }
 
 .login-form input[type="submit"]:hover {
     background-color: #005bb5;
 }
 
-.fpass a{
+.fpass a {
     text-decoration: none;
     margin-top: 5vh;
 }
 
-.reg-button{
+.reg-button {
     padding: 15px;
     background-color: #f59e0b;
     border-radius: 15px;
@@ -162,14 +162,14 @@ header h1 {
     margin-top: 5vh;
 }
 
-.reg-button a{
+.reg-button a {
     text-decoration: none;
     color: black;
 }
 
 /* invalid username */
 
-.message{
+.message {
     background-color: red;
     color: black;
     padding: 2px 0;
@@ -181,22 +181,22 @@ header h1 {
 }
 
 @media only screen and (max-width: 800px) {
-    body{
+    body {
         overflow: scroll;
         background-size: cover;
         background-repeat: repeat-y;
-    } 
+    }
 
     body::before {
         content: "";
         position: fixed;
         width: 100vw;
         height: 100vh;
-        background-color: #18223fb9; 
+        background-color: #18223fb9;
         z-index: -1;
     }
-    
-    .container{
+
+    .container {
         transform: translate(-3%, 0%);
         margin-top: auto;
         display: flex;
@@ -206,11 +206,11 @@ header h1 {
         row-gap: 5vh;
     }
 
-    .login-form{
+    .login-form {
         width: 70vw;
     }
 
-    .reg-button{
+    .reg-button {
         padding: 15px;
         background-color: #f59e0b;
         border-radius: 15px;

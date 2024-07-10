@@ -1,41 +1,51 @@
-body{   
+body {
     margin: 0;
     padding: 0;
     overflow-y: scroll;
 }
 
-.pcenter{
+.pcenter {
     margin: 10% 0%;
 }
 
-.login-form{
+.login-form {
     width: 50vw;
 }
 
-.row{
+.row {
     display: grid;
     grid-template-rows: 0.1fr 0.1fr;
     margin-top: 0;
 }
 
-.col{
+.col {
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 5%;
 }
 
-.mcenter{
+.mcenter {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
-.message{
+.message {
     width: 50%;
 }
 
-#fname,#lname,#mobile,#email,#address,#city,#dist,#state,#pcode,#username,#password{
+#fname,
+#lname,
+#mobile,
+#email,
+#address,
+#city,
+#dist,
+#state,
+#pcode,
+#username,
+#password {
     width: 95%;
 }
 
@@ -44,11 +54,12 @@ body{
 }
 
 @media only screen and (max-width: 800px) {
-    .login-form{
+    .login-form {
         width: 75vw;
     }
 
-    .row, .col{
+    .row,
+    .col {
         display: block;
     }
 }

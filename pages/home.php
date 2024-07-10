@@ -27,8 +27,8 @@
     $lDate = $row['Last_date'];
     $UAN = $row['UAN'];
     $PF = $row['PF'];
-    $PAN = $row['PAn'];
-    $PNum = $row['PNum'];
+    $PAN = $row['PAN'];
+    $PNum = $row['Pension_Number'];
     if ($BID == "" || $dept == "" || $jDate == "" || $lDate == "" || $UAN == "" || $PF == "" || $PAN == "" || $PNum == "") {
         echo "<script>window.location.href = 'profile.php';</script>";
     }
@@ -38,6 +38,27 @@
         <div class="head">
             <a href="home.php"><img src="../assets/images/logo.png" width="100px" height="39px"></a>
             <div>
+                <div class="off-screen-menu">
+                    <div class="top">
+                        <ul>
+                            <li><a href="home.php">Home</a></li>
+                            <li><a href="socialize.php">Socialize</a></li>
+                            <li><a href="profile.php">Profile</a></li>
+                        </ul>
+                    </div>
+                    <div class="bottom">
+                        <ul>
+                            <li><a href="../php/logout.php" id="menu-logout"><img src="">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <nav>
+                    <div class="ham-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </nav>
                 <a href="socialize.php" class="link">Socialize</a>
                 <a class="link" href="profile.php">My Profile</a>
                 <a id="logout" class="link" href="../php/logout.php">Logout</a>
@@ -68,6 +89,15 @@
             </div>
         </div>
     </div>
+    <script>
+        const hamMenu = document.querySelector('.ham-menu');
+        const offScreenMenu = document.querySelector('.off-screen-menu');
+        hamMenu.addEventListener('click', () => {
+            hamMenu.classList.toggle('active');
+            offScreenMenu.classList.toggle('active');
+        })
+    </script>
+
 </body>
 
 </html>

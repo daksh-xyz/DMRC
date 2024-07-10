@@ -24,6 +24,10 @@ header {
     text-align: center;
 }
 
+.off-screen-menu, .ham-menu{
+    display: none;
+}
+
 .head {
     display: flex;
     justify-content: space-between;
@@ -69,8 +73,6 @@ header {
     margin-top: 7vh;
 }
 
-
-
 .box {
     background-color: white;
     padding: 5vh 7vw;
@@ -106,37 +108,8 @@ header {
     background-color: #e7262d;
 }
 
-
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
-}
-
-.header {
-    background-color: #ffffff;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #ddd;
-}
-
-.header .logo {
-    height: 50px;
-}
-
-.header nav a {
-    color: #d9534f;
-    text-decoration: none;
-    margin-left: 20px;
-    font-size: 18px;
-}
-
-.search-section {
-    background-image: url('background_image.png'); /* Add your background image here */
+/* .search-section {
+    background-image: url('background_image.png');
     background-size: cover;
     background-position: center;
     padding: 50px 0;
@@ -172,10 +145,10 @@ body {
 
 .search-box button:hover {
     background-color: #c9302c;
-}
+} */
 
 .alumni-grid {
-    padding: 20px;
+    padding: 4vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -186,7 +159,7 @@ body {
     border: 1px solid #ddd;
     border-radius: 10px;
     margin: 10px;
-    padding: 20px;
+    padding: 2vw;
     width: 200px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -222,4 +195,150 @@ body {
 
 .connect-button:hover {
     background-color: #31b0d5;
+}
+
+@media only screen and (max-width:800px){
+
+    header{
+        position: fixed;
+        top: 0;
+        height: 5vh;
+        width: 100%;
+    }
+    
+    .head{
+        position: fixed;
+        height: 5vh;
+        width: 90%;
+    }
+
+    .link{
+        display: none;
+    }
+
+/* Hamburger Menu */
+
+.off-screen-menu {
+    width: 100%;
+    height: 100vh;
+    max-width: 350px;
+    background-color: whitesmoke;
+    color: black;
+    position: fixed;
+    top: 0;
+    right: -450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    font-size: 4vh;
+    transition: .3s ease;
+}
+
+.top{
+    margin-top: 10vh;
+}
+
+#menu-logout{
+    background-color: #c91f24;
+    color: white;
+    padding: 1vh 20vw;
+    border-radius: 10px;
+}
+
+#menu-logout:hover, #menu-logout:active{
+    color: white;
+    background-color: #e7262d;
+}
+
+.off-screen-menu ul {
+    list-style-type: none;
+}
+
+.off-screen-menu a {
+    text-decoration: none;
+    color: black;
+    transition: .3s ease;
+}
+
+.off-screen-menu a:hover, .off-screen-menu a:active{
+    color: #c91f24;
+}
+
+.off-screen-menu.active {
+    right: 0;
+}
+
+nav {
+    padding: 1rem;
+    display: flex;
+}
+
+.ham-menu {
+    display: inherit;
+    position: relative;
+    height: 40px;
+    width: 40px;
+    margin-left: auto;
+    z-index: 100;
+}
+
+.ham-menu span {
+    height: 5px;
+    width: 100%;
+    background-color: #c91f24;
+    border-radius: 25px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: .3s ease;
+}
+
+.ham-menu span:nth-child(1) {
+    top: 25%;
+}
+
+.ham-menu span:nth-child(3) {
+    top: 75%;
+}
+
+.ham-menu.active span:nth-child(1) {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.ham-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.ham-menu.active span:nth-child(3) {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.space{
+    height: 10vh;
+}
+
+.box input,
+.box select{
+    width: 80vw;
+}
+
+.SearchContainer{
+    z-index: -1;
+}
+
+.alumni-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 0;
+}
+
+.alumni-box{
+    width: 150px;
+}
+
 }
