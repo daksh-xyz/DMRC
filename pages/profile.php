@@ -145,7 +145,7 @@
                 </div>
             </header>
             <div class="space"></div>
-            <div class="center">
+            <div class="pcenter">
                 <div class="profile-container">
                     <h1>My Profile</h1>
                     <div class="tabs">

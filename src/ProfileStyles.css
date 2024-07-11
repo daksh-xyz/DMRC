@@ -74,7 +74,7 @@ header {
 }
 
 .profile-container {
-    margin: 5vh 0;
+    margin: 50px 0;
     background-color: #fff;
     padding: 2vw 5vw;
     border-radius: 10px;
@@ -227,6 +227,17 @@ input[type="submit"] {
 /* #jDate, #lDate{
     padding: 20px 10px;
 } */
+
+
+@media only screen and (max-height: 1400px) and (min-height:1100px){
+    body{
+        height: 100vh;
+    }
+
+    .profile-container{
+        margin: 20% 0;
+    }
+}
 
 @media only screen and (max-width:800px) {
 

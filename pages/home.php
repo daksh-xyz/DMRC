@@ -30,7 +30,7 @@
     $PAN = $row['PAN'];
     $PNum = $row['Pension_Number'];
     if ($BID == "" || $dept == "" || $jDate == "" || $lDate == "" || $UAN == "" || $PF == "" || $PAN == "" || $PNum == "") {
-        echo "<script>window.location.href = 'profile.php';</script>";
+        echo "<script>window.location.href = 'profile.php';alert('Please complete profile first!')</script>";
     }
 
     ?>

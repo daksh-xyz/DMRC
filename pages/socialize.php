@@ -15,6 +15,21 @@
     if (!isset($_SESSION["id"])) {
         header("Location: ../index.php");
     } else {
+        $id = $_SESSION['id'];
+        $query = "SELECT * from alumni_details where Alumni_id = $id";
+        $qresult = mysqli_query($con, $query);
+        $row = mysqli_fetch_assoc($qresult);
+        $BID = $row['BatchID'];
+        $dept = $row['Department'];
+        $jDate = $row['Join_Date'];
+        $lDate = $row['Last_date'];
+        $UAN = $row['UAN'];
+        $PF = $row['PF'];
+        $PAN = $row['PAN'];
+        $PNum = $row['Pension_Number'];
+        if ($BID == "" || $dept == "" || $jDate == "" || $lDate == "" || $UAN == "" || $PF == "" || $PAN == "" || $PNum == "") {
+            echo "<script>window.location.href = 'profile.php';</script>";
+        }
         ?>
 
         <header>
@@ -69,71 +84,72 @@
                 <button>Search</button>
             </div>
         </div>
-        <div class="alumni-grid">
-            <div class="alumni-box">
-                <img src="../assets/userpfp/user.png" alt="Profile Picture" class="profile-pic">
-                <div class="alumni-info">
-                    <p class="alumni-name">tejas</p>
-                    <p class="alumni-detail">Batch 2020</p>
-                    <button class="connect-button">Connect</button>
-                </div>
+        <div class="ResultContainer">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('alumni-grid')">Personal Details</button>
+                <button class="tab" onclick="showTab('contact-details')">Contact Details</button>
+                <button class="tab" onclick="showTab('employment-info')">Alumni Information</button>
             </div>
-
-            <div class="alumni-box">
-                <img src="../assets/userpfp/user.png" alt="Profile Picture" class="profile-pic">
-                <div class="alumni-info">
-                    <p class="alumni-name">daksh</p>
-                    <p class="alumni-detail">Batch 2021</p>
-                    <button class="connect-button">Connect</button>
-                </div>
+            <div class="alumni-grid">
+                <?php
+                $id = $_SESSION['id'];
+                $getFriends_query = mysqli_query($con, "SELECT * FROM alumni a JOIN connections c ON a.Alumni_id = c.User_id WHERE c.Alumni_id= $id;");
+                while ($getFriends = mysqli_fetch_assoc($getFriends_query)) {
+                    $name = $getFriends['First_Name'] . " " . $getFriends['Last_Name'];
+                    $pfp = $getFriends['pfp'];
+                    $UID = $getFriends['User_id'];
+                    $getBatchID_query = mysqli_query($con, "SELECT * FROM alumni_details WHERE Alumni_id=$UID");
+                    $getBatchID = mysqli_fetch_assoc($getBatchID_query);
+                    $BID = $getBatchID['BatchID'];
+                    echo '<div class="alumni-box">
+                    <img src="../assets/userpfp/' . $pfp . '" alt="Profile Picture" class="profile-pic">
+                    <div class="alumni-info">
+                        <p class="alumni-name">' . $name . '</p>
+                        <p class="alumni-detail">Batch ID:' . $BID . '</p>
+                        <button class="connect-button">Connect</button>
+                    </div>
+                </div>';
+                }
+                ?>
             </div>
-
-            <div class="alumni-box">
-                <img src="../assets/userpfp/user.png" alt="Profile Picture" class="profile-pic">
-                <div class="alumni-info">
-                    <p class="alumni-name">mayur vihar</p>
-                    <p class="alumni-detail">Batch 2019</p>
-                    <button class="connect-button">Connect</button>
-                </div>
-            </div>
-
-            <div class="alumni-box">
-                <img src="../assets/userpfp/user.png" alt="Profile Picture" class="profile-pic">
-                <div class="alumni-info">
-                    <p class="alumni-name">xyz</p>
-                    <p class="alumni-detail">Batch 2019</p>
-                    <button class="connect-button">Connect</button>
-                </div>
-            </div>
-
-            <div class="alumni-box">
-                <img src="../assets/userpfp/user.png" alt="Profile Picture" class="profile-pic">
-                <div class="alumni-info">
-                    <p class="alumni-name">yoo</p>
-                    <p class="alumni-detail">Batch 2016</p>
-                    <button class="connect-button">Connect</button>
-                </div>
-            </div>
-            <div class="alumni-box">
-                <img src="../assets/userpfp/user.png" alt="Profile Picture" class="profile-pic">
-                <div class="alumni-info">
-                    <p class="alumni-name">abcd</p>
-                    <p class="alumni-detail">Batch 2022</p>
-                    <button class="connect-button">Connect</button>
-                </div>
-            </div>
-
         </div>
         <script>
-            const hamMenu = document.querySelector('.ham-menu');
-            const offScreenMenu = document.querySelector('.off-screen-menu');
-            hamMenu.addEventListener('click', () => {
-                hamMenu.classList.toggle('active');
-                offScreenMenu.classList.toggle('active');
-            })
+            function cycleTab(count) {
+                var tabs = document.getElementsByClassName('tab-content');
+                var tabNum = count;
+                for (var i = 0; i < tabs.length; i++) {
+                    tabs[i].style.display = 'none';
+                }
+                tabs[tabNum].style.display = 'block';
+
+                var tabButtons = document.getElementsByClassName('tab');
+                for (var i = 0; i < tabButtons.length; i++) {
+                    tabButtons[i].classList.remove('active');
+                }
+                tabButtons[tabNum].classList.add('active');
+            }
+
+            function showTab(tabId) {
+                var tabs = document.getElementsByClassName('tab-content');
+                for (var i = 0; i < tabs.length; i++) {
+                    tabs[i].style.display = 'none';
+                }
+                document.getElementById(tabId).style.display = 'block';
+
+                var tabButtons = document.getElementsByClassName('tab');
+                for (var i = 0; i < tabButtons.length; i++) {
+                    tabButtons[i].classList.remove('active');
+                }
+                event.currentTarget.classList.add('active');
+
+                const hamMenu = document.querySelector('.ham-menu');
+                const offScreenMenu = document.querySelector('.off-screen-menu');
+                hamMenu.addEventListener('click', () => {
+                    hamMenu.classList.toggle('active');
+                    offScreenMenu.classList.toggle('active');
+                })
         </script>
-    </body>
+    <?php } ?>
+</body>
 
-    </html>
-
-<?php } ?>
+</html>
