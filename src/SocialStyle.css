@@ -170,7 +170,6 @@ header {
 .recommendations{
     display: flex;
     width: 75%;
-    height: 210px;
     overflow-x: scroll;
     background-color: #f7f7f7;
     margin-top: 5px;
@@ -193,7 +192,7 @@ header {
     margin: 10px;
     padding: 2vw;
     width: 200px;
-    height: 200px;
+    height: 150px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
