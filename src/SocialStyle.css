@@ -135,8 +135,12 @@ header {
     border-radius: 5px;
 }
 
-.box button {
-    width: 100%;
+.box #search {
+    background-image: url("../assets/images/magnifying-glass.png");
+    background-repeat: no-repeat;
+    background-position: left;
+    width: 80px;
+    text-align: right;
     padding: 10px;
     background-color: #c91f24;
     color: white;
@@ -148,45 +152,6 @@ header {
 .box button:hover {
     background-color: #e7262d;
 }
-
-/* .search-section {
-    background-image: url('background_image.png');
-    background-size: cover;
-    background-position: center;
-    padding: 50px 0;
-    text-align: center;
-}
-
-.search-box {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 10px;
-    display: inline-block;
-}
-
-.search-box h2 {
-    margin-top: 0;
-}
-
-.search-box input, .search-box select, .search-box button {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin: 10px 10px 0 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    font-size: 16px;
-}
-
-.search-box button {
-    background-color: #c91f24;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.search-box button:hover {
-    background-color: #c9302c;
-} */
 
 .alumni-grid {
     display: flex;
@@ -205,6 +170,7 @@ header {
 .recommendations{
     display: flex;
     width: 75%;
+    height: 210px;
     overflow-x: scroll;
     background-color: #f7f7f7;
     margin-top: 5px;
@@ -273,6 +239,7 @@ header {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin: 5% 0;
 }
 
 @media only screen and (max-height: 1400px) and (min-height:1100px){
@@ -416,13 +383,26 @@ nav {
 }
 
 .alumni-grid{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .alumni-box{
-    width: 150px;
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+}
+
+.recommendations .alumni-box{
+    width: 200px;
+    height: 100px;
+}
+
+.box #search{
+    width: 100%;
+    background-position: 35%;
+    text-align: center;
 }
 
 }
