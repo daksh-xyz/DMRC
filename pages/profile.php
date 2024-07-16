@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,12 +6,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../src/ProfileStyles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
     <title>Profile Page</title>
 </head>
 
 <body>
     <?php
-    session_start();
     include ("../php/config.php");
     if (!isset($_SESSION['id'])) {
         header("Location: ../index.php");
@@ -84,13 +88,21 @@
             $PF = $_POST['PF'];
             $PAN = $_POST['PAN'];
             $PNum = $_POST['PNum'];
+            $cEmployment = $_POST['cEmployment'];
+            $fb = $_POST['Facebook'];
+            $twit = $_POST['Twitter'];
+            $lin = $_POST['LinkedIn'];
+            $ig = $_POST['Instagram'];
             $Alumni_edit_query = mysqli_query($con, "UPDATE alumni SET First_Name='$fname', Last_Name='$lname',DOB='$dob', Mobile='$mobile',Address='$address',District='$district',City='$city',State='$state',Pincode='$pcode',Username='$username',Email='$email',Password='$password' where Alumni_id=$id") or die("error occurred");
-            $Detail_edit_query = mysqli_query($con, "UPDATE alumni_details SET BatchID='$BID',Department='$dept',UAN='$UAN',PF='$PF',Pension_Number='$PNum',PAN='$PAN',Join_Date='$jDate',Last_date='$lDate' WHERE Alumni_id=$id");
+            $Detail_edit_query = mysqli_query($con, "UPDATE alumni_details SET BatchID='$BID',Department='$dept',UAN='$UAN',PF='$PF',Pension_Number='$PNum',PAN='$PAN',Join_Date='$jDate',Last_date='$lDate', CurrentEmployment='$cEmployment' WHERE Alumni_id=$id");
+            $Socials_edit_query = mysqli_query($con, "UPDATE alumni_socials SET Facebook='$fb', Twitter='$twit', LinkedIn='$lin', Instagram='$ig' WHERE Alumni_id=$id");
             header("Location: profile.php");
         } else {
             $getAlumniData = "SELECT * FROM alumni a LEFT JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id WHERE a.Alumni_id= $id UNION SELECT * FROM alumni a RIGHT JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id WHERE ad.Alumni_id = $id;";
             $AlumniData = mysqli_query($con, $getAlumniData);
+            $getAlumniSocials = mysqli_query($con, "SELECT * FROM alumni a JOIN alumni_socials asoc ON a.Alumni_id=asoc.Alumni_id WHERE a.Alumni_id=$id");
             $AlumniDataResult = mysqli_fetch_assoc($AlumniData);
+            $AlumniSocials = mysqli_fetch_assoc($getAlumniSocials);
             $name = $AlumniDataResult['First_Name'] . " " . $AlumniDataResult['Last_Name'];
             $dob = $AlumniDataResult['DOB'];
             $username = $AlumniDataResult['Username'];
@@ -111,6 +123,11 @@
             $dept = $AlumniDataResult['Department'];
             $jDate = $AlumniDataResult['Join_Date'];
             $lDate = $AlumniDataResult['Last_date'];
+            $cEmployment = $AlumniDataResult['CurrentEmployment'];
+            $fb = $AlumniSocials['Facebook'];
+            $twit = $AlumniSocials['Twitter'];
+            $lin = $AlumniSocials['LinkedIn'];
+            $ig = $AlumniSocials['Instagram'];
             ?>
 
             <header>
@@ -152,20 +169,47 @@
                         <button class="tab active" onclick="showTab('personal-details')">Personal Details</button>
                         <button class="tab" onclick="showTab('contact-details')">Contact Details</button>
                         <button class="tab" onclick="showTab('employment-info')">Alumni Information</button>
+                        <button class="tab" onclick="showTab('Socials')">Socials</button>
                     </div>
 
                     <div id="personal-details" class="tab-content">
                         <form action="" method="post" enctype="multipart/form-data">
                             <div class="profile-info">
-                                <div class="profile-pic">
-                                    <label>
-                                        <input type="file" name="image" style="display:none;" />
-                                        <img src="../assets/userpfp/<?php if ($pfp != '') {
-                                            echo $pfp;
-                                        } else {
-                                            echo "user.png";
-                                        } ?>" class="user">
-                                    </label>
+                                <div class="connection-info">
+                                    <div class="profile-pic">
+                                        <label>
+                                            <input type="file" name="image" style="display:none;" />
+                                            <img src="../assets/userpfp/<?php if ($pfp != '') {
+                                                echo $pfp;
+                                            } else {
+                                                echo "user.png";
+                                            } ?>" class="user">
+                                        </label>
+                                    </div>
+                                    <div id="followers">
+                                        Followers
+                                        <?php
+                                        $stmt = $con->prepare("SELECT COUNT(Alumni_id) AS Followers FROM connections WHERE Alumni_id = ? AND Alumni_id != User_id;");
+                                        $stmt->bind_param("i", $id);
+                                        $stmt->execute();
+                                        $getFollowers_query = $stmt->get_result();
+                                        $getFollowers = $getFollowers_query->fetch_assoc();
+                                        $followers = $getFollowers['Followers'];
+                                        echo "<p id='count'>$followers</p>";
+                                        ?>
+                                    </div>
+                                    <div id="following">
+                                        Following
+                                        <?php
+                                        $stmt = $con->prepare("SELECT COUNT(Alumni_id) AS Followers FROM connections WHERE User_id = ? AND Alumni_id != User_id;");
+                                        $stmt->bind_param("i", $id);
+                                        $stmt->execute();
+                                        $getFollowing_query = $stmt->get_result();
+                                        $getFollowing = $getFollowing_query->fetch_assoc();
+                                        $following = $getFollowing['Followers'];
+                                        echo "<p id='count'>$following</p>";
+                                        ?>
+                                    </div>
                                 </div>
                                 <input type="submit" name="pfpUpdate" value="Update Profile Picture" class="pfpUpdate">
                                 <div class="pcenter">
@@ -267,20 +311,49 @@
                                     <input type="text" name="PF" id="PF" value="<?php echo $PF ?>">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="PAN">PAN:</label>
-                                <input type="text" name="PAN" id="PAN" value="<?php echo $PAN ?>">
+                            <div class="col form-group">
+                                <div class="row">
+                                    <label for="PAN">PAN:</label>
+                                    <input type="text" name="PAN" id="PAN" value="<?php echo $PAN ?>">
+                                </div>
+                                <div class="row">
+                                    <label for="Pension Number">Pension Number:</label>
+                                    <input type="text" name="PNum" id="PNum" value="<?php echo $PNum ?>">
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="Pension Number">Pension Number:</label>
-                                <input type="text" name="PNum" id="PNum" value="<?php echo $PNum ?>">
+                                <label for="Current Employer">Current Employer:</label>
+                                <input type="text" name="cEmployment" id="cEmployment"
+                                    placeholder="Name of company with designation" value="<?php echo $cEmployment ?>">
                             </div>
                             <input class="back-btn" onclick="cycleTab(1)" value="Back" readonly>
-                            <input type="submit" name="submit" class="continue-btn" onclick="cycleTab(2)" value="Continue"
+                            <input class="continue-btn" onclick="cycleTab(3)" value="Continue" readonly>
+                        </div>
+                    </div>
+                    <div id="Socials" class="tab-content" style="display: none;">
+                        <div class="profile-info">
+                            <div class="form-group">
+                                <label for="LinkedIn">Facebook Username:</label>
+                                <input type="text" name="Facebook" id="Facebook" value="<?php echo $fb ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="Twitter">Twitter Username:</label>
+                                <input type="text" name="Twitter" id="Twitter" value="<?php echo $twit ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="LinkedIn">LinkedIn Username:</label>
+                                <input type="text" name="LinkedIn" id="LinkedIn" value="<?php echo $lin ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="Instagram">Instagram Username:</label>
+                                <input type="text" name="Instagram" id="Instagram" value="<?php echo $ig ?>">
+                            </div>
+                            <input class="back-btn" onclick="cycleTab(2)" value="Back" readonly>
+                            <input type="submit" name="submit" class="continue-btn" onclick="cycleTab(3)" value="Continue"
                                 readonly>
                         </div>
-                        </form>
                     </div>
+                    </form>
                 </div>
             <?php } ?>
         </div>

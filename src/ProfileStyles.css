@@ -89,7 +89,7 @@ h1 {
 .tabs {
     display: flex;
     justify-content: space-around;
-    margin-bottom: 2vw;
+    margin-bottom: 2vh;
 }
 
 .tab {
@@ -112,11 +112,32 @@ h1 {
     text-align: left;
 }
 
+.connection-info{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: start center;
+    margin:  0 0 16px 0;
+}
+
+#followers, #following{
+    font-family: "Nunito", sans-serif;
+    margin-top: 1.5vh;
+    text-align: center;
+    color: rgb(31, 31, 31);
+    font-weight: 600;
+}
+
+#count{
+    font-family: "Nunito", sans-serif;
+    font-size: large;
+    font-weight: 700;
+    margin-top: 0;
+}
+
 .profile-pic {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    margin: 0 auto 20px;
 }
 
 .user {
@@ -126,10 +147,6 @@ h1 {
     border-radius: 50%;
     border: 1px solid rgb(132, 132, 132);
     object-fit: cover;
-}
-
-h2 {
-    text-align: center;
 }
 
 p {
@@ -212,6 +229,7 @@ input[type="submit"] {
     background-color: #c91f24;
     color: white;
     margin: auto;
+    margin-bottom: 5px;
     border-radius: 5px;
     border: none;
 }
@@ -219,14 +237,9 @@ input[type="submit"] {
 #address,
 #country,
 #mobile-number,
-#PAN,
-#PNum {
+#cEmployment{
     width: 95%;
 }
-
-/* #jDate, #lDate{
-    padding: 20px 10px;
-} */
 
 
 @media only screen and (max-height: 1400px) and (min-height:1100px){
@@ -365,4 +378,19 @@ input[type="submit"] {
     .space {
         height: 10vh;
     }
+}
+
+/* FOR friendProfile */
+
+.profile-info h2{
+    margin-top: 0;
+    font-family: "Nunito", sans-serif;
+}
+
+#frname{
+    font-size: small;
+    background-color: gray;
+    color: rgb(31, 31, 31);
+    border-radius: 12px;
+    padding: 0 5px;
 }

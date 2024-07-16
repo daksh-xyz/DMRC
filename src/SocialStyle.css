@@ -14,7 +14,7 @@ body::before {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background-color: #18223fb9; 
+    background-color: #18223fb9;
     z-index: -1;
 }
 
@@ -39,7 +39,8 @@ header {
     text-align: center;
 }
 
-.off-screen-menu, .ham-menu{
+.off-screen-menu,
+.ham-menu {
     display: none;
 }
 
@@ -50,7 +51,7 @@ header {
     padding: 0 1vw;
 }
 
-.link{
+.link {
     text-decoration: none;
     padding: 0 10px;
     color: #c91f24;
@@ -58,11 +59,11 @@ header {
     transition: 0.2s;
 }
 
-.link:hover{
+.link:hover {
     color: #e7262d;
 }
 
-#logout{
+#logout {
     background-color: #c91f24;
     color: white;
     border-radius: 12px;
@@ -70,7 +71,7 @@ header {
     transition: ease-in-out 200ms;
 }
 
-#logout:hover{
+#logout:hover {
     background-color: #e7262d;
 }
 
@@ -103,7 +104,7 @@ header {
     color: white;
 }
 
-.ResultContainer{
+.ResultContainer {
     padding: 20px;
     background-color: white;
     width: 80%;
@@ -121,7 +122,7 @@ header {
 }
 
 .box h2 {
-    margin-top  : 0;
+    margin-top: 0;
     text-align: center;
 }
 
@@ -157,32 +158,70 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
 }
 
-#recommendText{
-    display:flex; 
+#recommendText {
+    display: flex;
     justify-content: left;
-    margin:0 auto;
+    margin: 0 auto;
     width: 80%;
     color: grey;
 }
 
-.recommendations{
+.recommendations {
     display: flex;
     width: 75%;
+    min-height: 150px;
     overflow-x: scroll;
     background-color: #f7f7f7;
     margin-top: 5px;
     border-radius: 5px;
 }
 
-#friends{
+#friends {
     display: flex;
     flex-direction: column;
 }
 
-.recommendations .alumni-box{
+#friendProfile {
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+#iframe-container {
+    background-color: #18223fb9;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+#friendView {
+    z-index: 2;
+    position: absolute;
+    top: 20vh;
+    left: 35%;
+    height: 61vh;
+    width: 35%;
+    border-radius: 16px;
+    transition: ease-in 0.5s;
+}
+
+.recommendations .alumni-box {
     width: 100px;
+    height: 150px;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: grey;
 }
 
 .alumni-box {
@@ -192,12 +231,12 @@ header {
     margin: 10px;
     padding: 2vw;
     width: 200px;
-    height: 150px;
+    height: 200px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.recommendations .alumni-name{
+.recommendations .alumni-name {
     height: 50px;
 }
 
@@ -233,7 +272,7 @@ header {
     background-color: #31b0d5;
 }
 
-.empty{
+.empty {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -241,167 +280,169 @@ header {
     margin: 5% 0;
 }
 
-@media only screen and (max-height: 1400px) and (min-height:1100px){
-    body{
+@media only screen and (max-height: 1400px) and (min-height:1100px) {
+    body {
         height: 100vh;
     }
 }
 
-@media only screen and (max-width:800px){
+@media only screen and (max-width:800px) {
 
-    header{
+    header {
         position: fixed;
         top: 0;
         height: 5vh;
         width: 100%;
     }
-    
-    .head{
+
+    .head {
         position: fixed;
         height: 5vh;
         width: 90%;
     }
 
-    .link{
+    .link {
         display: none;
     }
 
-/* Hamburger Menu */
+    /* Hamburger Menu */
 
-.off-screen-menu {
-    width: 100%;
-    height: 100vh;
-    max-width: 350px;
-    background-color: whitesmoke;
-    color: black;
-    position: fixed;
-    top: 0;
-    right: -450px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    font-size: 4vh;
-    transition: .3s ease;
-}
+    .off-screen-menu {
+        width: 100%;
+        height: 100vh;
+        max-width: 350px;
+        background-color: whitesmoke;
+        color: black;
+        position: fixed;
+        top: 0;
+        right: -450px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        font-size: 4vh;
+        transition: .3s ease;
+    }
 
-.top{
-    margin-top: 10vh;
-}
+    .top {
+        margin-top: 10vh;
+    }
 
-#menu-logout{
-    background-color: #c91f24;
-    color: white;
-    padding: 1vh 20vw;
-    border-radius: 10px;
-}
+    #menu-logout {
+        background-color: #c91f24;
+        color: white;
+        padding: 1vh 20vw;
+        border-radius: 10px;
+    }
 
-#menu-logout:hover, #menu-logout:active{
-    color: white;
-    background-color: #e7262d;
-}
+    #menu-logout:hover,
+    #menu-logout:active {
+        color: white;
+        background-color: #e7262d;
+    }
 
-.off-screen-menu ul {
-    list-style-type: none;
-}
+    .off-screen-menu ul {
+        list-style-type: none;
+    }
 
-.off-screen-menu a {
-    text-decoration: none;
-    color: black;
-    transition: .3s ease;
-}
+    .off-screen-menu a {
+        text-decoration: none;
+        color: black;
+        transition: .3s ease;
+    }
 
-.off-screen-menu a:hover, .off-screen-menu a:active{
-    color: #c91f24;
-}
+    .off-screen-menu a:hover,
+    .off-screen-menu a:active {
+        color: #c91f24;
+    }
 
-.off-screen-menu.active {
-    right: 0;
-}
+    .off-screen-menu.active {
+        right: 0;
+    }
 
-nav {
-    padding: 1rem;
-    display: flex;
-}
+    nav {
+        padding: 1rem;
+        display: flex;
+    }
 
-.ham-menu {
-    display: inherit;
-    position: relative;
-    height: 40px;
-    width: 40px;
-    margin-left: auto;
-    z-index: 100;
-}
+    .ham-menu {
+        display: inherit;
+        position: relative;
+        height: 40px;
+        width: 40px;
+        margin-left: auto;
+        z-index: 100;
+    }
 
-.ham-menu span {
-    height: 5px;
-    width: 100%;
-    background-color: #c91f24;
-    border-radius: 25px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    transition: .3s ease;
-}
+    .ham-menu span {
+        height: 5px;
+        width: 100%;
+        background-color: #c91f24;
+        border-radius: 25px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transition: .3s ease;
+    }
 
-.ham-menu span:nth-child(1) {
-    top: 25%;
-}
+    .ham-menu span:nth-child(1) {
+        top: 25%;
+    }
 
-.ham-menu span:nth-child(3) {
-    top: 75%;
-}
+    .ham-menu span:nth-child(3) {
+        top: 75%;
+    }
 
-.ham-menu.active span:nth-child(1) {
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(45deg);
-}
+    .ham-menu.active span:nth-child(1) {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
 
-.ham-menu.active span:nth-child(2) {
-    opacity: 0;
-}
+    .ham-menu.active span:nth-child(2) {
+        opacity: 0;
+    }
 
-.ham-menu.active span:nth-child(3) {
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(-45deg);
-}
+    .ham-menu.active span:nth-child(3) {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
 
-.space{
-    height: 10vh;
-}
+    .space {
+        height: 10vh;
+    }
 
-.box input,
-.box select{
-    width: 80vw;
-}
+    .box input,
+    .box select {
+        width: 80vw;
+    }
 
-.SearchContainer{
-    z-index: -1;
-}
+    .SearchContainer {
+        z-index: -1;
+    }
 
-.alumni-grid{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-}
+    .alumni-grid {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
 
-.alumni-box{
-    display: flex;
-    justify-content: space-between;
-    height: auto;
-}
+    .alumni-box {
+        display: flex;
+        justify-content: space-between;
+        height: auto;
+    }
 
-.recommendations .alumni-box{
-    width: 200px;
-    height: 100px;
-}
+    .recommendations .alumni-box {
+        width: 200px;
+        height: 100px;
+    }
 
-.box #search{
-    width: 100%;
-    background-position: 35%;
-    text-align: center;
-}
+    .box #search {
+        width: 100%;
+        background-position: 35%;
+        text-align: center;
+    }
 
 }

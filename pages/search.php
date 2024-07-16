@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,18 +12,20 @@
 
 <body>
     <?php
-    session_start();
     include ("../php/config.php");
     if (!isset($_SESSION["id"])) {
         header("Location: ../index.php");
         exit();
     } else {
         $id = $_SESSION['id'];
+        $fname = $lname = $ldate = $dept = "";
         if (isset($_POST['search'])) {
             $fullname = $_POST['Name'];
-            $fullname = explode(" ", $fullname, 2);
-            $fname = $fullname[0];
-            $lname = $fullname[1];
+            if ($fullname != '') {
+                $fullname = explode(" ", $fullname, 2);
+                $fname = $fullname[0];
+                $lname = $fullname[1];
+            }
             $ldate = $_POST['lDate'];
             $dept = $_POST['department'];
         }
@@ -82,34 +85,42 @@
         <div class="ResultContainer">
             <div class="alumni-grid">
                 <?php
-                $getFriends_query = mysqli_query($con, "SELECT * FROM alumni a
+                $query = "SELECT * FROM alumni a
                     JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id
-                    JOIN connections c ON a.Alumni_id = c.User_id AND a.Alumni_id != c.Alumni_id WHERE (a.First_Name = '$fname' AND a.Last_Name= '$lname') OR (ad.Last_date='$ldate') OR (Department='$dept') GROUP BY a.Alumni_id;");
+                    JOIN connections c ON a.Alumni_id = c.User_id AND a.Alumni_id != c.Alumni_id WHERE
+                    (a.First_Name = ? AND a.Last_Name= ?) OR (ad.Last_date=?) OR (Department=?) GROUP BY a.Alumni_id;";
+                $stmt = $con->prepare($query);
+                $stmt->bind_param("ssss", $fname, $lname, $ldate, $dept);
+                $stmt->execute();
+                $getFriends_query = $stmt->get_result();
                 if (!$getFriends_query) {
-                    echo "Error: " . mysqli_error($con);
+                    echo "Error: " . $con->error;
                     exit();
                 }
                 if (!mysqli_num_rows($getFriends_query)) {
                     echo "
                             <div class='empty'>
                                 <p>No friends yet? Find and connect with other alumni to build your network!</p>
-                                <img src='../assets/images/add-user.png' width='55px' >
+                                <img src='../assets/images/add-user.png' width='55px'>
                             </div>
                         ";
                 } else {
-                    while ($getFriends = mysqli_fetch_assoc($getFriends_query)) {
-                        $name = $getFriends['First_Name'] . " " . $getFriends['Last_Name'];
-                        $pfp = $getFriends['pfp'];
+                    while ($getFriends = $getFriends_query->fetch_assoc()) {
+                        $name = htmlspecialchars($getFriends['First_Name'] . " " . htmlspecialchars($getFriends['Last_Name']));
+                        $pfp = htmlspecialchars($getFriends['pfp']);
                         $AID = $id;
-                        $UID = $getFriends['User_id'];
-                        $fstatus = $getFriends['FriendshipStatus'];
-                        $getBatchID_query = mysqli_query($con, "SELECT * FROM alumni_details WHERE Alumni_id=$UID");
+                        $UID = htmlspecialchars($getFriends['User_id']);
+                        $fstatus = htmlspecialchars($getFriends['FriendshipStatus']);
+                        $stmt2 = $con->prepare("SELECT * FROM alumni_details WHERE Alumni_id = ?");
+                        $stmt2->bind_param("i", $UID);
+                        $stmt2->execute();
+                        $getBatchID_query = $stmt2->get_result();
                         if (!$getBatchID_query) {
-                            echo "Error: " . mysqli_error($con);
+                            echo "Error: " . $con->error;
                             exit();
                         }
-                        $getBatchID = mysqli_fetch_assoc($getBatchID_query);
-                        $BID = $getBatchID['BatchID'];
+                        $getBatchID = $getBatchID_query->fetch_assoc();
+                        $BID = htmlspecialchars($getBatchID['BatchID']);
                         echo '
                         <div class="alumni-box">
                             <img src="../assets/userpfp/' . $pfp . '" alt="Profile Picture" class="profile-pic">

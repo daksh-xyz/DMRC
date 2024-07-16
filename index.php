@@ -45,6 +45,7 @@
             $_SESSION['password'] = $row['Password'];
             $_SESSION['contact'] = $row['Mobile'];
             $verify_query = mysqli_query($con, "SELECT Alumni_id FROM alumni_details WHERE Alumni_id='$id' ");
+            $socials_query = mysqli_query($con, "SELECT Alumni_id FROM alumni_socials WHERE Alumni_id='$id' ");
             if (mysqli_num_rows($verify_query) == 0) {
                 $stmt = $con->prepare("INSERT INTO alumni_details(Alumni_id, BatchID, Department, UAN, PF, Pension_Number, PAN, Join_Date, Last_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 if ($stmt === false) {
@@ -52,6 +53,19 @@
                 }
                 // Bind the parameters
                 $stmt->bind_param("sssssssss", $id, $BID, $dept, $jDate, $lDate, $UAN, $PF, $PAN, $PNum);
+
+                if ($stmt->execute() === false) {
+                    die('Execute failed: ' . htmlspecialchars($stmt->error));
+                }
+                $stmt->close();
+            }
+            if (mysqli_num_rows($socials_query) == 0) {
+                $stmt = $con->prepare("INSERT INTO alumni_socials(Alumni_id) VALUES (?)");
+                if ($stmt === false) {
+                    die('Prepare failed: ' . htmlspecialchars($con->error));
+                }
+                // Bind the parameters
+                $stmt->bind_param("i", $id);
 
                 if ($stmt->execute() === false) {
                     die('Execute failed: ' . htmlspecialchars($stmt->error));
@@ -190,5 +204,14 @@
         </div>
     <?php } ?>
 </body>
+
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({ pageLanguage: 'en' }, 'center');
+    }
+</script>
+
+<script type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </html>

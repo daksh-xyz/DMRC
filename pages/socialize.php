@@ -1,9 +1,14 @@
+<?php session_start();
+$uids = [];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/friendView.css">
     <link rel="stylesheet" href="../src/SocialStyle.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>DMRC | Socialize</title>
@@ -11,20 +16,24 @@
 
 <body>
     <?php
-    session_start();
     include ("../php/config.php");
     if (!isset($_SESSION["id"])) {
         header("Location: ../index.php");
         exit();
     } else {
         $id = $_SESSION['id'];
-        $query = "SELECT * FROM alumni_details WHERE Alumni_id = $id";
-        $qresult = mysqli_query($con, $query);
+
+        // Using prepared statements to prevent SQL injection
+        $stmt = $con->prepare("SELECT * FROM alumni_details WHERE Alumni_id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $qresult = $stmt->get_result();
+
         if (!$qresult) {
-            echo "Error: " . mysqli_error($con);
+            echo "Error: " . $con->error;
             exit();
         }
-        $row = mysqli_fetch_assoc($qresult);
+        $row = $qresult->fetch_assoc();
         $BID = $row['BatchID'];
         $dept = $row['Department'];
         $jDate = $row['Join_Date'];
@@ -96,41 +105,40 @@
                 <button class="tab" onclick="showTab('invitation', event)">Incoming Requests</button>
                 <button class="tab" onclick="showTab('requests', event)">Outgoing Requests</button>
             </div>
-            <div id="friends" class="alumni-grid tab-content" style="display: flex;">
+            <div id="friends" class="alumni-grid tab-content">
                 <h3 id="recommendText">Suggested Alumni:</h3>
                 <div class="recommendations">
                     <?php
-                    $getBatchID_query = mysqli_query($con, "SELECT * FROM alumni_details WHERE Alumni_id=$id");
-                    if (!$getBatchID_query) {
-                        echo "Error: " . mysqli_error($con);
-                        exit();
+                    $stmt = $con->prepare("SELECT a.*, ad.*, c.*
+                    FROM alumni a
+                    JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id
+                    JOIN connections c ON a.Alumni_id = c.Alumni_id
+                    WHERE c.Alumni_id != ? AND c.FriendshipStatus = 0
+                    AND a.Alumni_id NOT IN (
+                        SELECT c.User_id FROM alumni a JOIN connections c ON a.Alumni_id = c.User_id WHERE c.Alumni_id = ? AND c.FriendshipStatus=1
+                    )
+                    GROUP BY a.Alumni_id;");
+                    $stmt->bind_param("ii", $id, $id);
+                    $stmt->execute();
+                    $getrecommendations_query = $stmt->get_result();
+
+                    if (!mysqli_num_rows($getrecommendations_query)) {
+                        echo "<div class='message'>No suggested alumnis at this moment</div>";
                     }
-                    $getBatchID = mysqli_fetch_assoc($getBatchID_query);
-                    $BID = $getBatchID['BatchID'];
-                    $getrecommendations_query = mysqli_query($con, "SELECT a.*, ad.*, c.*
-FROM alumni a
-JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id
-JOIN connections c ON a.Alumni_id = c.Alumni_id
-WHERE c.Alumni_id != $id AND c.FriendshipStatus = 0
-AND a.Alumni_id NOT IN (
-    SELECT c.User_id FROM alumni a JOIN connections c ON a.Alumni_id = c.User_id WHERE c.Alumni_id = $id AND c.FriendshipStatus=1
-)
-GROUP BY a.Alumni_id;
-");
                     if (!$getrecommendations_query) {
-                        echo "Error: " . mysqli_error($con);
+                        echo "Error: " . $con->error;
                         exit();
                     } else {
-                        while ($getrecommendations = mysqli_fetch_assoc($getrecommendations_query)) {
+                        while ($getrecommendations = $getrecommendations_query->fetch_assoc()) {
                             $name = $getrecommendations['First_Name'] . " " . $getrecommendations['Last_Name'];
                             $pfp = $getrecommendations['pfp'];
                             $AID = $id;
                             $UID = $getrecommendations['User_id'];
                             echo '<div class="alumni-box">
-                                <img src="../assets/userpfp/' . $pfp . '" alt="Profile Picture" class="profile-pic">
+                                <img src="../assets/userpfp/' . htmlspecialchars($pfp, ENT_QUOTES, 'UTF-8') . '" alt="Profile Picture" class="profile-pic">
                                 <div class="alumni-info">
-                                    <p class="alumni-name">' . $name . '</p>
-                                    <button class="connect-button" onclick="sendInvite(' . $UID . ', ' . $AID . ')">Connect</button>
+                                    <p class="alumni-name">' . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . '</p>
+                                    <button class="connect-button" onclick="sendInvite(' . htmlspecialchars($UID, ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($AID, ENT_QUOTES, 'UTF-8') . ')">Connect</button>
                                 </div>
                             </div>';
                         }
@@ -139,9 +147,12 @@ GROUP BY a.Alumni_id;
                 </div>
                 <div class="alumni-grid">
                     <?php
-                    $getFriends_query = mysqli_query($con, "SELECT * FROM alumni a JOIN connections c ON a.Alumni_id = c.User_id WHERE c.Alumni_id = $id AND c.FriendshipStatus=1;");
+                    $stmt = $con->prepare("SELECT * FROM alumni a JOIN connections c ON a.Alumni_id = c.User_id WHERE c.Alumni_id = ? AND c.FriendshipStatus=1;");
+                    $stmt->bind_param("i", $id);
+                    $stmt->execute();
+                    $getFriends_query = $stmt->get_result();
                     if (!$getFriends_query) {
-                        echo "Error: " . mysqli_error($con);
+                        echo "Error: " . $con->error;
                         exit();
                     }
                     if (!mysqli_num_rows($getFriends_query)) {
@@ -152,104 +163,126 @@ GROUP BY a.Alumni_id;
                             </div>
                         ";
                     } else {
-                        while ($getFriends = mysqli_fetch_assoc($getFriends_query)) {
+                        $countID = 0;
+                        while ($getFriends = $getFriends_query->fetch_assoc()) {
                             $name = $getFriends['First_Name'] . " " . $getFriends['Last_Name'];
                             $pfp = $getFriends['pfp'];
                             $AID = $getFriends['Alumni_id'];
                             $UID = $getFriends['User_id'];
-                            $getBatchID_query = mysqli_query($con, "SELECT * FROM alumni_details WHERE Alumni_id=$UID");
+                            array_push($uids, $UID);
+                            $stmt = $con->prepare("SELECT * FROM alumni_details WHERE Alumni_id = ?");
+                            $stmt->bind_param("i", $UID);
+                            $stmt->execute();
+                            $getBatchID_query = $stmt->get_result();
                             if (!$getBatchID_query) {
-                                echo "Error: " . mysqli_error($con);
+                                echo "Error: " . $con->error;
                                 exit();
                             }
-                            $getBatchID = mysqli_fetch_assoc($getBatchID_query);
+                            $getBatchID = $getBatchID_query->fetch_assoc();
                             $BID = $getBatchID['BatchID'];
-                            echo '<div class="alumni-box">
-                                <img src="../assets/userpfp/' . $pfp . '" alt="Profile Picture" class="profile-pic">
+                            echo '<div class="container"><a href="friendProfile.php?uid=' . $UID . '" onclick="showfriendView(\'iframe-container\', event); showfriendView(\'friendView\', event)" id="friendProfile" target="iframe_a"><div class="alumni-box">
+                                <img src="../assets/userpfp/' . htmlspecialchars($pfp, ENT_QUOTES, 'UTF-8') . '" alt="Profile Picture" class="profile-pic">
                                 <div class="alumni-info">
-                                    <p class="alumni-name">' . $name . '</p>
-                                    <p class="alumni-detail">Batch ID:' . $BID . '</p>
-                                    <button class="connect-button" onclick="unfollowAlumni(' . $UID . ', ' . $AID . ')">Unfriend</button>
-                                </div>
+                                    <p class="alumni-name">' . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . '</p>
+                                    <p class="alumni-detail">Batch ID:' . htmlspecialchars($BID, ENT_QUOTES, 'UTF-8') . '</p>
+                                    </div>
+                                    </a>
+                                    <button class="connect-button" onclick="unfollowAlumni(' . htmlspecialchars($UID, ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($AID, ENT_QUOTES, 'UTF-8') . ')">Unfriend</button>
+                            </div>
                             </div>';
                         }
                     }
                     ?>
                 </div>
+                <div id="iframe-container" style="display:none;">
+                    <iframe src="friendProfile.php" frameborder="0" name="iframe_a" title="frame" id="friendView"
+                        style="display:none;"></iframe>
+                </div>
             </div>
-            <div id="invitation" class="alumni-grid tab-content" style="display:none;">
+            <div id="invitation" class="alumni-grid tab-content" style="display: none;">
                 <?php
-                $getinvitations_query = mysqli_query($con, "SELECT * FROM alumni a JOIN connections c ON a.Alumni_id = c.Alumni_id WHERE c.Alumni_id != $id AND c.User_id= $id AND c.FriendshipStatus=0;");
-                if (!$getinvitations_query) {
-                    echo "Error: " . mysqli_error($con);
+                $stmt = $con->prepare("SELECT * FROM alumni a JOIN connections c ON a.Alumni_id = c.Alumni_id WHERE c.Alumni_id != ? AND c.User_id= ? AND c.FriendshipStatus=0;");
+                $stmt->bind_param("ii", $id, $id);
+                $stmt->execute();
+                $getInvites_query = $stmt->get_result();
+                if (!$getInvites_query) {
+                    echo "Error: " . $con->error;
                     exit();
                 }
-                if (!mysqli_num_rows($getinvitations_query)) {
+                if (!mysqli_num_rows($getInvites_query)) {
                     echo "
-                    <div class='empty'>
-                        <p>No Invites yet? Find and connect with other alumni to build your network!</p>
-                        <img src='../assets/images/add-user.png' width='55px' >
-                    </div>
+                        <div class='empty'>
+                            <p>You don't have any pending requests at the moment.</p>
+                            <img src='../assets/images/add-user.png' width='55px'>
+                        </div>
                     ";
                 } else {
-                    while ($getinvitation = mysqli_fetch_assoc($getinvitations_query)) {
-                        $name = $getinvitation['First_Name'] . " " . $getinvitation['Last_Name'];
-                        $pfp = $getinvitation['pfp'];
-                        $UID = $getinvitation['User_id'];
-                        $AID = $getinvitation['Alumni_id'];
-                        $getBatchID_query = mysqli_query($con, "SELECT * FROM alumni_details WHERE Alumni_id=$AID");
+                    while ($getInvites = $getInvites_query->fetch_assoc()) {
+                        $name = $getInvites['First_Name'] . " " . $getInvites['Last_Name'];
+                        $pfp = $getInvites['pfp'];
+                        $AID = $getInvites['Alumni_id'];
+                        $UID = $getInvites['User_id'];
+                        $stmt = $con->prepare("SELECT * FROM alumni_details WHERE Alumni_id = ?");
+                        $stmt->bind_param("i", $UID);
+                        $stmt->execute();
+                        $getBatchID_query = $stmt->get_result();
                         if (!$getBatchID_query) {
-                            echo "Error: " . mysqli_error($con);
+                            echo "Error: " . $con->error;
                             exit();
                         }
-                        $getBatchID = mysqli_fetch_assoc($getBatchID_query);
+                        $getBatchID = $getBatchID_query->fetch_assoc();
                         $BID = $getBatchID['BatchID'];
-                        echo '
-                    <div class="alumni-box">
-                        <img src="../assets/userpfp/' . $pfp . '" alt="Profile Picture" class="profile-pic">
-                        <div class="alumni-info">
-                            <p class="alumni-name">' . $name . '</p>
-                            <p class="alumni-detail">' . $BID . '</p>                            
-                            <button class="connect-button" onclick="acceptInvite(' . $UID . ', ' . $AID . ')">Accept</button>
-                        </div>
-                    </div>';
+                        echo '<div class="alumni-box">
+                            <img src="../assets/userpfp/' . htmlspecialchars($pfp, ENT_QUOTES, 'UTF-8') . '" alt="Profile Picture" class="profile-pic">
+                            <div class="alumni-info">
+                                <p class="alumni-name">' . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . '</p>
+                                <p class="alumni-detail">Batch ID:' . htmlspecialchars($BID, ENT_QUOTES, 'UTF-8') . '</p>
+                                <button class="connect-button" onclick="acceptRequest(' . htmlspecialchars($UID, ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($AID, ENT_QUOTES, 'UTF-8') . ')">Accept</button>
+                            </div>
+                        </div>';
                     }
                 }
                 ?>
             </div>
-            <div id="requests" class="alumni-grid tab-content" style="display:none;">
+            <div id="requests" class="alumni-grid tab-content" style="display: none;">
                 <?php
-                $getRequest_query = mysqli_query($con, "SELECT * FROM alumni a JOIN connections c ON a.Alumni_id = c.User_id WHERE c.Alumni_id= $id AND c.User_id != $id AND c.FriendshipStatus=0;");
+                $stmt = $con->prepare("SELECT * FROM alumni a JOIN connections c ON a.Alumni_id = c.User_id WHERE c.Alumni_id= ? AND c.User_id != ? AND c.FriendshipStatus=0;");
+                $stmt->bind_param("ii", $id, $id);
+                $stmt->execute();
+                $getRequest_query = $stmt->get_result();
                 if (!$getRequest_query) {
-                    echo "Error: " . mysqli_error($con);
+                    echo "Error: " . $con->error;
                     exit();
                 }
                 if (!mysqli_num_rows($getRequest_query)) {
                     echo "
-                    <div class='empty'>
-                        <p>No Requests yet? Find and connect with other alumni to build your network!</p>
-                        <img src='../assets/images/add-user.png' width='55px' >
-                    </div>
+                        <div class='empty'>
+                            <p>You don't have any outgoing requests at the moment.</p>
+                            <img src='../assets/images/add-user.png' width='55px'>
+                        </div>
                     ";
                 } else {
-                    while ($getRequest = mysqli_fetch_assoc($getRequest_query)) {
-                        $name = $getRequest['First_Name'] . " " . $getRequest['Last_Name'];
-                        $pfp = $getRequest['pfp'];
-                        $UID = $getRequest['User_id'];
-                        $AID = $getRequest['Alumni_id'];
-                        $getBatchID_query = mysqli_query($con, "SELECT * FROM alumni_details WHERE Alumni_id=$UID");
+                    while ($getRequests = $getRequest_query->fetch_assoc()) {
+                        $name = $getRequests['First_Name'] . " " . $getRequests['Last_Name'];
+                        $pfp = $getRequests['pfp'];
+                        $AID = $getRequests['Alumni_id'];
+                        $UID = $getRequests['User_id'];
+                        $stmt = $con->prepare("SELECT * FROM alumni_details WHERE Alumni_id = ?");
+                        $stmt->bind_param("i", $UID);
+                        $stmt->execute();
+                        $getBatchID_query = $stmt->get_result();
                         if (!$getBatchID_query) {
-                            echo "Error: " . mysqli_error($con);
+                            echo "Error: " . $con->error;
                             exit();
                         }
-                        $getBatchID = mysqli_fetch_assoc($getBatchID_query);
+                        $getBatchID = $getBatchID_query->fetch_assoc();
                         $BID = $getBatchID['BatchID'];
                         echo '<div class="alumni-box">
-                            <img src="../assets/userpfp/' . $pfp . '" alt="Profile Picture" class="profile-pic">
+                            <img src="../assets/userpfp/' . htmlspecialchars($pfp, ENT_QUOTES, 'UTF-8') . '" alt="Profile Picture" class="profile-pic">
                             <div class="alumni-info">
-                                <p class="alumni-name">' . $name . '</p>
-                                <p class="alumni-detail">Batch ID:' . $BID . '</p>
-                                <button class="connect-button" onclick="cancel_invite(' . $UID . ', ' . $AID . ')">Cancel</button>
+                                <p class="alumni-name">' . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . '</p>
+                                <p class="alumni-detail">Batch ID:' . htmlspecialchars($BID, ENT_QUOTES, 'UTF-8') . '</p>
+                                <button class="connect-button" onclick="cancelRequest(' . htmlspecialchars($UID, ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($AID, ENT_QUOTES, 'UTF-8') . ')">Cancel Request</button>
                             </div>
                         </div>';
                     }
@@ -257,103 +290,107 @@ GROUP BY a.Alumni_id;
                 ?>
             </div>
         </div>
-        <script>
-            function showTab(tabId, event) {
-                var tabs = document.getElementsByClassName('tab-content');
-                for (var i = 0; i < tabs.length; i++) {
-                    tabs[i].style.display = 'none';
-                }
-                document.getElementById(tabId).style.display = 'flex';
-
-                var tabButtons = document.getElementsByClassName('tab');
-                for (var i = 0; i < tabButtons.length; i++) {
-                    tabButtons[i].classList.remove('active');
-                }
-                event.currentTarget.classList.add('active');
-            }
-
-            function acceptInvite(userId, alumniId) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../php/accept_invite.php',
-                    data: {
-                        user_id: userId,
-                        alumni_id: alumniId
-                    },
-                    success: function (response) {
-                        alert('Friend request accepted!');
-                        $("#friends").load(" #friends > *");
-                        $("#invitation").load(" #invitation > *");
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error:', error);
-                    }
-                });
-            }
-
-            function sendInvite(userId, alumniId) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../php/send_invite.php',
-                    data: {
-                        user_id: userId,
-                        alumni_id: alumniId
-                    },
-                    success: function (response) {
-                        alert('Friend request Sent!');
-                        $("#friends").load(" #friends > *");
-                        $("#requests").load(" #requests > *");
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error:', error);
-                    }
-                });
-            }
-
-            function unfollowAlumni(userId, alumniId) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../php/unfollow.php',
-                    data: {
-                        user_id: userId,
-                        alumni_id: alumniId
-                    },
-                    success: function (response) {
-                        alert('Friend removed!');
-                        $("#friends").load(" #friends > *");
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error:', error);
-                    }
-                });
-            }
-
-            function cancel_invite(userId, alumniId) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../php/unfollow.php',
-                    data: {
-                        user_id: userId,
-                        alumni_id: alumniId
-                    },
-                    success: function (response) {
-                        alert('Invite removed!');
-                        $("#requests").load(" #requests > *");
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error:', error);
-                    }
-                });
-            }
-
-            const hamMenu = document.querySelector('.ham-menu');
-            const offScreenMenu = document.querySelector('.off-screen-menu');
-            hamMenu.addEventListener('click', () => {
-                hamMenu.classList.toggle('active');
-                offScreenMenu.classList.toggle('active');
-            });
-        </script>
     <?php } ?>
 </body>
+<script>
+
+    function showTab(tabId, event) {
+        var tabs = document.getElementsByClassName('tab-content');
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].style.display = 'none';
+        }
+        document.getElementById(tabId).style.display = 'flex';
+
+        var tabButtons = document.getElementsByClassName('tab');
+        for (var i = 0; i < tabButtons.length; i++) {
+            tabButtons[i].classList.remove('active');
+        }
+        event.currentTarget.classList.add('active');
+    }
+
+    function showfriendView(tabId, event) {
+        document.getElementById(tabId).style.display = 'block';
+    }
+
+    function sendInvite(userId, alumniId) {
+        $.ajax({
+            type: 'POST',
+            url: '../php/send_invite.php',
+            data: {
+                user_id: userId,
+                alumni_id: alumniId
+            },
+            success: function (response) {
+                alert('Friend request Sent!');
+                $("#friends").load(" #friends > *");
+                $("#requests").load(" #requests > *");
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    function acceptRequest(userId, alumniId) {
+        $.ajax({
+            type: 'POST',
+            url: '../php/accept_invite.php',
+            data: {
+                user_id: userId,
+                alumni_id: alumniId
+            },
+            success: function (response) {
+                alert('Friend request accepted!');
+                $("#friends").load(" #friends > *");
+                $("#invitation").load(" #invitation > *");
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    function cancelRequest(userId, alumniId) {
+        $.ajax({
+            type: 'POST',
+            url: '../php/unfollow.php',
+            data: {
+                user_id: userId,
+                alumni_id: alumniId
+            },
+            success: function (response) {
+                alert('Invite removed!');
+                $("#requests").load(" #requests > *");
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    function unfollowAlumni(userId, alumniId) {
+        $.ajax({
+            type: 'POST',
+            url: '../php/unfollow.php',
+            data: {
+                user_id: userId,
+                alumni_id: alumniId
+            },
+            success: function (response) {
+                alert('Friend removed!');
+                $("#friends").load(" #friends > *");
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+    const hamMenu = document.querySelector('.ham-menu');
+    const offScreenMenu = document.querySelector('.off-screen-menu');
+    hamMenu.addEventListener('click', () => {
+        hamMenu.classList.toggle('active');
+        offScreenMenu.classList.toggle('active');
+    });
+</script>
 
 </html>
