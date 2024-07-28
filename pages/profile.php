@@ -139,7 +139,7 @@
                                 <ul>
                                     <li><a href="home.php">Home</a></li>
                                     <li><a href="socialize.php">Socialize</a></li>
-                                    <li><a href="profile.php">Profile</a></li>
+                                    <li><a href="profile.php">My Profile</a></li>
                                 </ul>
                             </div>
                             <div class="bottom">
@@ -155,8 +155,8 @@
                                 <span></span>
                             </div>
                         </nav>
-                        <a href="Socialize.php" class="link">Socialize</a>
                         <a class="link" href="home.php">Home</a>
+                        <a href="Socialize.php" class="link">Socialize</a>
                         <a id="logout" class="link" href="../php/logout.php">Logout</a>
                     </div>
                 </div>
@@ -349,7 +349,7 @@
                                 <input type="text" name="Instagram" id="Instagram" value="<?php echo $ig ?>">
                             </div>
                             <input class="back-btn" onclick="cycleTab(2)" value="Back" readonly>
-                            <input type="submit" name="submit" class="continue-btn" onclick="cycleTab(3)" value="Continue"
+                            <input type="submit" name="submit" class="continue-btn final" onclick="cycleTab(3)" value="Continue"
                                 readonly>
                         </div>
                     </div>

@@ -27,6 +27,11 @@
                 $lname = $fullname[1];
             }
             $ldate = $_POST['lDate'];
+            if ($ldate != '') {
+                $ldate = explode("-", $ldate, 3);
+                $lyear = $ldate[0];
+                $lmonth = $ldate[1];
+            }
             $dept = $_POST['department'];
         }
         ?>
@@ -39,7 +44,7 @@
                             <ul>
                                 <li><a href="home.php">Home</a></li>
                                 <li><a href="socialize.php">Socialize</a></li>
-                                <li><a href="profile.php">Profile</a></li>
+                                <li><a href="profile.php">My Profile</a></li>
                             </ul>
                         </div>
                         <div class="bottom">
@@ -55,8 +60,9 @@
                             <span></span>
                         </div>
                     </nav>
-                    <a href="../pages/home.php" class="link">Home</a>
-                    <a class="link" href="../pages/profile.php">My Profile</a>
+                    <a href="home.php" class="link">Home</a>
+                    <a href="socialize.php" class="link">Socialize</a>
+                    <a class="link" href="profile.php">My Profile</a>
                     <a id="logout" class="link" href="../php/logout.php">Logout</a>
                 </div>
             </div>
@@ -85,12 +91,18 @@
         <div class="ResultContainer">
             <div class="alumni-grid">
                 <?php
-                $query = "SELECT * FROM alumni a
-                    JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id
-                    JOIN connections c ON a.Alumni_id = c.User_id AND a.Alumni_id != c.Alumni_id WHERE
-                    (a.First_Name = ? AND a.Last_Name= ?) OR (ad.Last_date=?) OR (Department=?) GROUP BY a.Alumni_id;";
+                $query = "SELECT a.*, ad.*, c.*
+                FROM alumni a
+                JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id
+                JOIN connections c ON a.Alumni_id = c.Alumni_id
+                WHERE 
+                    (a.First_Name = ? AND a.Last_Name = ? AND a.Alumni_id != ?)
+                    OR (MONTH(ad.Last_date) = ? AND YEAR(ad.Last_date) = ? AND a.Alumni_id != ?)
+                    OR (ad.Department = ? AND a.Alumni_id != ?)
+                GROUP BY a.Alumni_id;
+                ";
                 $stmt = $con->prepare($query);
-                $stmt->bind_param("ssss", $fname, $lname, $ldate, $dept);
+                $stmt->bind_param("ssissisi", $fname, $lname, $id, $lmonth, $lyear, $id, $dept, $id);
                 $stmt->execute();
                 $getFriends_query = $stmt->get_result();
                 if (!$getFriends_query) {
@@ -160,6 +172,8 @@
                 hamMenu.classList.toggle('active');
                 offScreenMenu.classList.toggle('active');
             });
+
+            date.max = new Date().toISOString().slice(0, -14);
         </script>
     <?php } ?>
 </body>

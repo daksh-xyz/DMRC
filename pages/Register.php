@@ -28,14 +28,18 @@
         $state = $_POST['state'];
         $pcode = $_POST['pincode'];
 
-        $verify_query = mysqli_query($con, "SELECT Username FROM alumni WHERE Username='$username' ");
-        if (mysqli_num_rows($verify_query) != 0) {
-            echo "<div class = 'mcenter'>
-            <div class= 'message'>
-        <p> This email is used , Try another One Please! </p>
-        <a href = 'javascript: self.history.back() '><button class = 'btn'> Go Back </button>
-        </div></div>";
-
+        $verify_query = $con->prepare("SELECT a.Username FROM alumni a JOIN admin ad ON a.Username = ad.Username WHERE a.Username = ? AND ad.Username = ?");
+        $verify_query->bind_param('ss', $username, $username);
+        $verify_query->execute();
+        $verify_query->store_result();
+        if ($verify_query->num_rows != 0) {
+            echo "<div class='mcenter'>
+            <div class='message'>
+                <script>alert('This email is used, try another one please!');
+                self.history.back();
+                </script>
+            </div>
+          </div>";
         } else {
             $stmt = $con->prepare("INSERT INTO alumni (First_Name, Last_Name, Username, Email, Password, Mobile, Address, District, City, State, Pincode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             if ($stmt === false) {
@@ -48,8 +52,9 @@
                 die('Execute failed: ' . htmlspecialchars($stmt->error));
             } else {
                 echo "<div class='mcenter'><div class= 'message'>
-                        <p> Registration Successfull! </p>
-                        <a href = '../index.php'><button class = 'btn'> Login Now </button>
+                        <script>alert('Registration Sucessful!, please login')
+                        window.location.href= '../index.php';
+                        </script>
                     </div> </div>";
             }
 
@@ -105,14 +110,15 @@
                             <input type="text" id="city" name="city" required>
                         </div>
                         <div class="row">
-                            <label for="district">District</label>
-                            <input type="text" id="dist" name="district" required>
+                            <label for="state">State</label>
+                            <input type="text" id="state" name="state" required>
                         </div>
                     </div>
                     <div class="col">
+
                         <div class="row">
-                            <label for="state">State</label>
-                            <input type="text" id="state" name="state" required>
+                            <label for="district">District</label>
+                            <input type="text" id="dist" name="district" required>
                         </div>
                         <div class="row">
                             <label for="pincode">Pincode</label>

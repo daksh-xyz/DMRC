@@ -50,7 +50,15 @@
 }
 
 .col{
-    width: 93%;
+    width: 100%;
+}
+
+#username{
+    width: 95%;
+}
+
+#cEmployment{
+    width: 90%;
 }
 
 .svg-inline--fa {
@@ -154,4 +162,18 @@
     color: #125688;
     background: #fefefe;
     border-color: #125688;
+}
+
+.ucenter{
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+.my-form{
+    width: 80%;
+    margin: 10px auto;
+    border-radius: 12px;
+    background-color: white;
+    padding: 20px;
 }

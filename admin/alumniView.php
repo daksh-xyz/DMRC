@@ -17,12 +17,9 @@
 <body>
     <?php
     include ("../php/config.php");
-    if (!isset($_SESSION['id'])) {
-        header("../index.php");
-    } elseif (!isset($_GET['uid'])) {
+    if (!isset($_GET['uid'])) {
         header("socialize.php");
     } else {
-        $id = $_SESSION['id'];
         $uid = $_GET['uid'];
         $stmt = $con->prepare("SELECT * FROM alumni a LEFT JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id WHERE a.Alumni_id= ? UNION SELECT * FROM alumni a RIGHT JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id WHERE ad.Alumni_id = ?;");
         $stmt->bind_param("ii", $uid, $uid);
@@ -136,6 +133,9 @@
                             target="_blank"><i class="fab fa-instagram"></i></a>
                     </div>
                     <div>
+                        <input class="continue-btn"
+                            onclick="window.location.href= 'documentUpload.php?SenderID=<?php echo $uid ?>'"
+                            value="UPLOAD DOCUMENTS" readonly>
                         <input class="continue-btn" onclick="closeWin()" value="CLOSE" readonly>
                     </div>
                 </div>

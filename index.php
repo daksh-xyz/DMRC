@@ -32,18 +32,14 @@
         $PAN = null;
         $PNum = null;
 
-        $result = mysqli_query($con, "SELECT * FROM alumni WHERE Username='$username' AND Password='$password' ") or die("Select
-    Error");
+        $result = mysqli_query($con, "SELECT * FROM alumni WHERE Username='$username' AND Password='$password' ") or die("Select Error");
+        $adminResult = mysqli_query($con, "SELECT * FROM admin WHERE Username='$username' AND Password='$password' ") or die("Select Error");
         $row = mysqli_fetch_assoc($result);
+        $adminRow = mysqli_fetch_assoc($adminResult);
 
         if (is_array($row) && !empty($row)) {
-            $_SESSION['fname'] = $row['First_Name'];
-            $_SESSION['lname'] = $row['Last_Name'];
             $_SESSION['id'] = $row['Alumni_id'];
             $id = $_SESSION['id'];
-            $_SESSION['username'] = $row['Username'];
-            $_SESSION['password'] = $row['Password'];
-            $_SESSION['contact'] = $row['Mobile'];
             $verify_query = mysqli_query($con, "SELECT Alumni_id FROM alumni_details WHERE Alumni_id='$id' ");
             $socials_query = mysqli_query($con, "SELECT Alumni_id FROM alumni_socials WHERE Alumni_id='$id' ");
             if (mysqli_num_rows($verify_query) == 0) {
@@ -71,6 +67,11 @@
                     die('Execute failed: ' . htmlspecialchars($stmt->error));
                 }
                 $stmt->close();
+            }
+        } elseif (is_array($adminRow) && !empty($adminRow)) {
+            $_SESSION['AdminId'] = $adminRow['AdminID'];
+            if (isset($_SESSION['AdminId'])) {
+                header("Location: admin/adminHome.php");
             }
         } else {
             echo "

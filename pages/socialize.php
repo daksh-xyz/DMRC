@@ -35,6 +35,7 @@ $uids = [];
         }
         $row = $qresult->fetch_assoc();
         $BID = $row['BatchID'];
+        $_SESSION['BatchID'] = $row['BatchID'];
         $dept = $row['Department'];
         $jDate = $row['Join_Date'];
         $lDate = $row['Last_date'];
@@ -56,7 +57,7 @@ $uids = [];
                             <ul>
                                 <li><a href="home.php">Home</a></li>
                                 <li><a href="socialize.php">Socialize</a></li>
-                                <li><a href="profile.php">Profile</a></li>
+                                <li><a href="profile.php">My Profile</a></li>
                             </ul>
                         </div>
                         <div class="bottom">
@@ -113,12 +114,12 @@ $uids = [];
                     FROM alumni a
                     JOIN alumni_details ad ON a.Alumni_id = ad.Alumni_id
                     JOIN connections c ON a.Alumni_id = c.Alumni_id
-                    WHERE c.Alumni_id != ? AND c.FriendshipStatus = 0
+                    WHERE c.Alumni_id != ? AND c.FriendshipStatus = 0 AND ad.BatchID=? 
                     AND a.Alumni_id NOT IN (
                         SELECT c.User_id FROM alumni a JOIN connections c ON a.Alumni_id = c.User_id WHERE c.Alumni_id = ? AND c.FriendshipStatus=1
                     )
                     GROUP BY a.Alumni_id;");
-                    $stmt->bind_param("ii", $id, $id);
+                    $stmt->bind_param("isi", $id, $_SESSION['BatchID'], $id);
                     $stmt->execute();
                     $getrecommendations_query = $stmt->get_result();
 
@@ -238,6 +239,7 @@ $uids = [];
                                 <p class="alumni-name">' . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . '</p>
                                 <p class="alumni-detail">Batch ID:' . htmlspecialchars($BID, ENT_QUOTES, 'UTF-8') . '</p>
                                 <button class="connect-button" onclick="acceptRequest(' . htmlspecialchars($UID, ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($AID, ENT_QUOTES, 'UTF-8') . ')">Accept</button>
+                                <button class="connect-button" onclick="cancelRequest(' . htmlspecialchars($UID, ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($AID, ENT_QUOTES, 'UTF-8') . ')">Cancel</button>
                             </div>
                         </div>';
                     }
@@ -321,7 +323,7 @@ $uids = [];
                 alumni_id: alumniId
             },
             success: function (response) {
-                alert('Friend request Sent!');
+                alert(response);
                 $("#friends").load(" #friends > *");
                 $("#requests").load(" #requests > *");
             },
@@ -361,6 +363,7 @@ $uids = [];
             success: function (response) {
                 alert('Invite removed!');
                 $("#requests").load(" #requests > *");
+                $("#invitation").load(" #invitation > *");
             },
             error: function (xhr, status, error) {
                 console.error('Error:', error);
@@ -391,6 +394,8 @@ $uids = [];
         hamMenu.classList.toggle('active');
         offScreenMenu.classList.toggle('active');
     });
+
+    date.max = new Date().toISOString().slice(0, -14);
 </script>
 
 </html>
